@@ -1,0 +1,227 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`contract should deploy correctly 1`] = `
+[
+  {
+    "$seq": 0,
+    "events": [
+      {
+        "$type": "deploy",
+      },
+      {
+        "$type": "received",
+        "message": {
+          "body": {
+            "cell": "x{945F981780011F6E292AB9FE5825731C5F568DB15E68F69707390F1976DA6A7F173916703B9_}
+ x{6F776E6572}",
+            "type": "cell",
+          },
+          "bounce": true,
+          "from": "@treasure(owner)",
+          "to": "kQDLpyT8CJHookyURfvJlUMxGDXEqIPxQXYIM1a1s_jOqYxn",
+          "type": "internal",
+          "value": "0.1",
+        },
+      },
+      {
+        "$type": "processed",
+        "gasUsed": 9745n,
+      },
+    ],
+  },
+  {
+    "$seq": 1,
+    "events": [
+      {
+        "$type": "received",
+        "message": {
+          "body": {
+            "cell": "x{945F98178017D7106C5BAFA91E82BDC51DA9B2540F408179A12D717B9427AB9F178EF13BB89_}
+ x{736F6D656F6E65}",
+            "type": "cell",
+          },
+          "bounce": true,
+          "from": "@treasure(owner)",
+          "to": "kQDLpyT8CJHookyURfvJlUMxGDXEqIPxQXYIM1a1s_jOqYxn",
+          "type": "internal",
+          "value": "0.1",
+        },
+      },
+      {
+        "$type": "processed",
+        "gasUsed": 11716n,
+      },
+    ],
+  },
+  {
+    "$seq": 2,
+    "events": [
+      {
+        "$type": "storage-charged",
+        "amount": "0.000000013",
+      },
+      {
+        "$type": "received",
+        "message": {
+          "body": {
+            "cell": "x{82A4A809}
+ x{736F6D656F6E65}
+ x{48656C6C6F}",
+            "type": "cell",
+          },
+          "bounce": true,
+          "from": "@treasure(owner)",
+          "to": "kQDLpyT8CJHookyURfvJlUMxGDXEqIPxQXYIM1a1s_jOqYxn",
+          "type": "internal",
+          "value": "0.1",
+        },
+      },
+      {
+        "$type": "processed",
+        "gasUsed": 20165n,
+      },
+      {
+        "$type": "sent",
+        "messages": [
+          {
+            "body": {
+              "text": "Hello",
+              "type": "text",
+            },
+            "bounce": true,
+            "from": "kQDLpyT8CJHookyURfvJlUMxGDXEqIPxQXYIM1a1s_jOqYxn",
+            "to": "@treasure(someone)",
+            "type": "internal",
+            "value": "0.078663",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    "$seq": 3,
+    "events": [
+      {
+        "$type": "received",
+        "message": {
+          "body": {
+            "cell": "x{82A4A809}
+ x{6F776E6572}
+ x{48656C6C6F}",
+            "type": "cell",
+          },
+          "bounce": true,
+          "from": "@treasure(someone)",
+          "to": "kQDLpyT8CJHookyURfvJlUMxGDXEqIPxQXYIM1a1s_jOqYxn",
+          "type": "internal",
+          "value": "0.1",
+        },
+      },
+      {
+        "$type": "processed",
+        "gasUsed": 20165n,
+      },
+      {
+        "$type": "sent",
+        "messages": [
+          {
+            "body": {
+              "text": "Hello",
+              "type": "text",
+            },
+            "bounce": true,
+            "from": "kQDLpyT8CJHookyURfvJlUMxGDXEqIPxQXYIM1a1s_jOqYxn",
+            "to": "@treasure(owner)",
+            "type": "internal",
+            "value": "0.078663",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    "$seq": 4,
+    "events": [
+      {
+        "$type": "received",
+        "message": {
+          "body": {
+            "cell": "x{82A4A809}
+ x{6F776E6572}
+ x{48656C6C6F}",
+            "type": "cell",
+          },
+          "bounce": true,
+          "from": "@treasure(someone)",
+          "to": "kQDLpyT8CJHookyURfvJlUMxGDXEqIPxQXYIM1a1s_jOqYxn",
+          "type": "internal",
+          "value": "0.1",
+        },
+      },
+      {
+        "$type": "processed",
+        "gasUsed": 20165n,
+      },
+      {
+        "$type": "sent",
+        "messages": [
+          {
+            "body": {
+              "text": "Hello",
+              "type": "text",
+            },
+            "bounce": true,
+            "from": "kQDLpyT8CJHookyURfvJlUMxGDXEqIPxQXYIM1a1s_jOqYxn",
+            "to": "@treasure(owner)",
+            "type": "internal",
+            "value": "0.078663",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    "$seq": 5,
+    "events": [
+      {
+        "$type": "storage-charged",
+        "amount": "0.000000013",
+      },
+      {
+        "$type": "received",
+        "message": {
+          "body": {
+            "text": "someone",
+            "type": "text",
+          },
+          "bounce": true,
+          "from": "@treasure(someone)",
+          "to": "kQDLpyT8CJHookyURfvJlUMxGDXEqIPxQXYIM1a1s_jOqYxn",
+          "type": "internal",
+          "value": "0.1",
+        },
+      },
+      {
+        "$type": "processed",
+        "gasUsed": 34270n,
+      },
+      {
+        "$type": "sent",
+        "messages": [
+          {
+            "body": {
+              "text": "someone sent 2 message(s) (66.66%) and received 1 message(s) (33.33%)",
+              "type": "text",
+            },
+            "bounce": true,
+            "from": "kQDLpyT8CJHookyURfvJlUMxGDXEqIPxQXYIM1a1s_jOqYxn",
+            "to": "@treasure(someone)",
+            "type": "internal",
+            "value": "0.064046",
+          },
+        ],
+      },
+    ],
+  },
+]
+`;

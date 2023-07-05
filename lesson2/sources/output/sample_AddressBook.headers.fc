@@ -1,0 +1,184 @@
+;;
+;; Header files for AddressBook
+;; NOTE: declarations are sorted for optimal order
+;;
+
+;; __tact_verify_address
+slice __tact_verify_address(slice address) inline;
+
+;; __tact_load_address
+(slice, slice) __tact_load_address(slice cs) inline;
+
+;; __tact_store_address
+builder __tact_store_address(builder b, slice address) inline;
+
+;; __tact_my_balance
+int __tact_my_balance() inline;
+
+;; __tact_not_null
+forall X -> X __tact_not_null(X x) inline;
+
+;; __tact_context_get
+(int, slice, int, slice) __tact_context_get() inline;
+
+;; __tact_context_get_sender
+slice __tact_context_get_sender() inline;
+
+;; __tact_store_bool
+builder __tact_store_bool(builder b, int v) inline;
+
+;; __tact_dict_set_uint_cell
+(cell, ()) __tact_dict_set_uint_cell(cell d, int kl, int k, cell v) inline;
+
+;; __tact_dict_get_uint_cell
+cell __tact_dict_get_uint_cell(cell d, int kl, int k) inline;
+
+;; __tact_dict_set_slice_cell
+(cell, ()) __tact_dict_set_slice_cell(cell d, int kl, slice k, cell v) inline;
+
+;; __tact_dict_get_slice_cell
+cell __tact_dict_get_slice_cell(cell d, int kl, slice k) inline;
+
+;; __tact_slice_eq_bits
+int __tact_slice_eq_bits(slice a, slice b) inline;
+
+;; __tact_string_builder_start
+tuple __tact_string_builder_start(builder b) inline;
+
+;; __tact_string_builder_start_comment
+tuple __tact_string_builder_start_comment() inline;
+
+;; __tact_string_builder_end
+cell __tact_string_builder_end(tuple builders) inline;
+
+;; __tact_string_builder_append
+((tuple), ()) __tact_string_builder_append(tuple builders, slice sc) inline_ref;
+
+;; __tact_int_to_string
+slice __tact_int_to_string(int src) inline_ref;
+
+;; __tact_float_to_string
+slice __tact_float_to_string(int src, int digits) inline_ref;
+
+;; $AddUserMessage$_load
+(slice, ((slice, slice))) $AddUserMessage$_load(slice sc_0) inline;
+
+;; $RemoveUserMessage$_load
+(slice, ((slice))) $RemoveUserMessage$_load(slice sc_0) inline;
+
+;; $ProxyMessage$_load
+(slice, ((slice, slice))) $ProxyMessage$_load(slice sc_0) inline;
+
+;; $User$_store
+builder $User$_store(builder build_0, (slice, slice, int, int) v) inline;
+
+;; $User$_store_cell
+cell $User$_store_cell((slice, slice, int, int) v) inline;
+
+;; $User$_not_null
+((slice, slice, int, int)) $User$_not_null(tuple v) inline;
+
+;; $User$_store_opt
+cell $User$_store_opt(tuple v) inline;
+
+;; $User$_load
+(slice, ((slice, slice, int, int))) $User$_load(slice sc_0) inline;
+
+;; $User$_as_optional
+tuple $User$_as_optional((slice, slice, int, int) v) inline;
+
+;; $User$_load_opt
+tuple $User$_load_opt(cell cl) inline;
+
+;; $Name$_store
+builder $Name$_store(builder build_0, (slice) v) inline;
+
+;; $Name$_store_cell
+cell $Name$_store_cell((slice) v) inline;
+
+;; $Name$_not_null
+((slice)) $Name$_not_null(tuple v) inline;
+
+;; $Name$_store_opt
+cell $Name$_store_opt(tuple v) inline;
+
+;; $Name$_load
+(slice, ((slice))) $Name$_load(slice sc_0) inline;
+
+;; $Name$_as_optional
+tuple $Name$_as_optional((slice) v) inline;
+
+;; $Name$_load_opt
+tuple $Name$_load_opt(cell cl) inline;
+
+;; $AddressBook$_store
+builder $AddressBook$_store(builder build_0, (slice, cell, cell, int) v) inline;
+
+;; $AddressBook$_load
+(slice, ((slice, cell, cell, int))) $AddressBook$_load(slice sc_0) inline;
+
+;; $StateInit$_not_null
+((cell, cell)) $StateInit$_not_null(tuple v) inline;
+
+;; $User$_to_tuple
+tuple $User$_to_tuple(((slice, slice, int, int)) v) inline;
+
+;; $User$_to_opt_tuple
+tuple $User$_to_opt_tuple(tuple v) inline;
+
+;; $User$_to_opt_external
+tuple $User$_to_opt_external(tuple v) inline;
+
+;; $Name$_get_name
+_ $Name$_get_name((slice) v) inline;
+
+;; $AddressBook$init$_load
+(slice, ((slice))) $AddressBook$init$_load(slice sc_0) inline;
+
+;; $AddressBook$_contract_init
+(slice, cell, cell, int) $AddressBook$_contract_init(slice $owner) impure inline_ref;
+
+;; $AddressBook$_contract_load
+(slice, cell, cell, int) $AddressBook$_contract_load() impure inline_ref;
+
+;; $AddressBook$_contract_store
+() $AddressBook$_contract_store((slice, cell, cell, int) v) impure inline;
+
+;; $global_send
+() $global_send((int, slice, int, int, cell, cell, cell) $params) impure inline_ref;
+
+;; $String$_fun_asComment
+cell $String$_fun_asComment(slice $self) impure inline_ref;
+
+;; $AddressBook$_fun_get_stat
+((slice, cell, cell, int), tuple) $AddressBook$_fun_get_stat((slice, cell, cell, int) $self, slice $str) impure inline_ref;
+
+;; $AddressBook$_fun_get_username
+((slice, cell, cell, int), slice) $AddressBook$_fun_get_username((slice, cell, cell, int) $self, slice $address) impure inline_ref;
+
+;; $SendParameters$_constructor_bounce_to_value_mode_body_code_data
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int bounce, slice to, int value, int mode, cell body, cell code, cell data) inline;
+
+;; $AddressBook$_fun_forward
+((slice, cell, cell, int), ()) $AddressBook$_fun_forward((slice, cell, cell, int) $self, slice $to, cell $body, int $bounce, tuple $init) impure inline_ref;
+
+;; $AddressBook$_fun_reply
+((slice, cell, cell, int), ()) $AddressBook$_fun_reply((slice, cell, cell, int) $self, cell $body) impure inline;
+
+;; $AddressBook$_fun_requireOwner
+((slice, cell, cell, int), ()) $AddressBook$_fun_requireOwner((slice, cell, cell, int) $self) impure inline_ref;
+
+;; $AddressBook$_fun_owner
+((slice, cell, cell, int), slice) $AddressBook$_fun_owner((slice, cell, cell, int) $self) impure inline_ref;
+
+;; $User$_constructor_name_address
+((slice, slice, int, int)) $User$_constructor_name_address(slice name, slice address) inline;
+
+;; $Name$_constructor_name
+((slice)) $Name$_constructor_name(slice name) inline;
+
+;; $SendParameters$_constructor_to_value_mode_body
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_value_mode_body(slice to, int value, int mode, cell body) inline;
+
+;; $User$_constructor_name_address_received_count_sent_count
+((slice, slice, int, int)) $User$_constructor_name_address_received_count_sent_count(slice name, slice address, int received_count, int sent_count) inline;

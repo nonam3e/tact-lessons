@@ -1,0 +1,244 @@
+;;
+;; Type: StateInit
+;; TLB: _ code:^cell data:^cell = StateInit
+;;
+
+((cell, cell)) $StateInit$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (cell vvv'code, cell vvv'data) = __tact_tuple_destroy_2(v);
+    return (vvv'code, vvv'data);
+}
+
+;;
+;; Type: SendParameters
+;; TLB: _ bounce:bool to:address value:int257 mode:int257 body:Maybe ^cell code:Maybe ^cell data:Maybe ^cell = SendParameters
+;;
+
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int bounce, slice to, int value, int mode, cell body, cell code, cell data) inline {
+    return (bounce, to, value, mode, body, code, data);
+}
+
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_value_mode_body(slice to, int value, int mode, cell body) inline {
+    return (true, to, value, mode, body, null(), null());
+}
+
+;;
+;; Type: AddUserMessage
+;; Header: 0x945f9817
+;; TLB: add_user_message#945f9817 name:^string address:address = AddUserMessage
+;;
+
+(slice, ((slice, slice))) $AddUserMessage$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 2489292823);
+    var v'name = sc_0~load_ref().begin_parse();
+    var v'address = sc_0~__tact_load_address();
+    return (sc_0, (v'name, v'address));
+}
+
+;;
+;; Type: RemoveUserMessage
+;; Header: 0x2568a530
+;; TLB: remove_user_message#2568a530 name:^string = RemoveUserMessage
+;;
+
+(slice, ((slice))) $RemoveUserMessage$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 627615024);
+    var v'name = sc_0~load_ref().begin_parse();
+    return (sc_0, (v'name));
+}
+
+;;
+;; Type: ProxyMessage
+;; Header: 0x82a4a809
+;; TLB: proxy_message#82a4a809 to:^string message:^string = ProxyMessage
+;;
+
+(slice, ((slice, slice))) $ProxyMessage$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 2191829001);
+    var v'to = sc_0~load_ref().begin_parse();
+    var v'message = sc_0~load_ref().begin_parse();
+    return (sc_0, (v'to, v'message));
+}
+
+;;
+;; Type: User
+;; TLB: _ name:^string address:address received_count:uint32 sent_count:uint32 = User
+;;
+
+builder $User$_store(builder build_0, (slice, slice, int, int) v) inline {
+    var (v'name, v'address, v'received_count, v'sent_count) = v;
+    build_0 = build_0.store_ref(begin_cell().store_slice(v'name).end_cell());
+    build_0 = __tact_store_address(build_0, v'address);
+    build_0 = build_0.store_uint(v'received_count, 32);
+    build_0 = build_0.store_uint(v'sent_count, 32);
+    return build_0;
+}
+
+cell $User$_store_cell((slice, slice, int, int) v) inline {
+    return $User$_store(begin_cell(), v).end_cell();
+}
+
+((slice, slice, int, int)) $User$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (slice vvv'name, slice vvv'address, int vvv'received_count, int vvv'sent_count) = __tact_tuple_destroy_4(v);
+    return (vvv'name, vvv'address, vvv'received_count, vvv'sent_count);
+}
+
+cell $User$_store_opt(tuple v) inline {
+    if (null?(v)) {
+        return null();
+    }
+    return $User$_store_cell($User$_not_null(v));
+}
+
+(slice, ((slice, slice, int, int))) $User$_load(slice sc_0) inline {
+    var v'name = sc_0~load_ref().begin_parse();
+    var v'address = sc_0~__tact_load_address();
+    var v'received_count = sc_0~load_uint(32);
+    var v'sent_count = sc_0~load_uint(32);
+    return (sc_0, (v'name, v'address, v'received_count, v'sent_count));
+}
+
+tuple $User$_as_optional((slice, slice, int, int) v) inline {
+    var (v'name, v'address, v'received_count, v'sent_count) = v;
+    return __tact_tuple_create_4(v'name, v'address, v'received_count, v'sent_count);
+}
+
+tuple $User$_load_opt(cell cl) inline {
+    if (null?(cl)) {
+        return null();
+    }
+    var sc = cl.begin_parse();
+    return $User$_as_optional(sc~$User$_load());
+}
+
+tuple $User$_to_tuple(((slice, slice, int, int)) v) inline {
+    var (v'name, v'address, v'received_count, v'sent_count) = v;
+    return __tact_tuple_create_4(v'name, v'address, v'received_count, v'sent_count);
+}
+
+tuple $User$_to_opt_tuple(tuple v) inline {
+    if (null?(v)) { return null(); } 
+    return $User$_to_tuple($User$_not_null(v)); 
+}
+
+tuple $User$_to_opt_external(tuple v) inline {
+    var loaded = $User$_to_opt_tuple(v);
+    if (null?(loaded)) {
+        return null();
+    } else {
+        return (loaded);
+    }
+}
+
+((slice, slice, int, int)) $User$_constructor_name_address(slice name, slice address) inline {
+    return (name, address, 0, 0);
+}
+
+((slice, slice, int, int)) $User$_constructor_name_address_received_count_sent_count(slice name, slice address, int received_count, int sent_count) inline {
+    return (name, address, received_count, sent_count);
+}
+
+;;
+;; Type: Name
+;; TLB: _ name:^string = Name
+;;
+
+builder $Name$_store(builder build_0, (slice) v) inline {
+    var (v'name) = v;
+    build_0 = build_0.store_ref(begin_cell().store_slice(v'name).end_cell());
+    return build_0;
+}
+
+cell $Name$_store_cell((slice) v) inline {
+    return $Name$_store(begin_cell(), v).end_cell();
+}
+
+((slice)) $Name$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (slice vvv'name) = __tact_tuple_destroy_1(v);
+    return (vvv'name);
+}
+
+cell $Name$_store_opt(tuple v) inline {
+    if (null?(v)) {
+        return null();
+    }
+    return $Name$_store_cell($Name$_not_null(v));
+}
+
+(slice, ((slice))) $Name$_load(slice sc_0) inline {
+    var v'name = sc_0~load_ref().begin_parse();
+    return (sc_0, (v'name));
+}
+
+tuple $Name$_as_optional((slice) v) inline {
+    var (v'name) = v;
+    return __tact_tuple_create_1(v'name);
+}
+
+tuple $Name$_load_opt(cell cl) inline {
+    if (null?(cl)) {
+        return null();
+    }
+    var sc = cl.begin_parse();
+    return $Name$_as_optional(sc~$Name$_load());
+}
+
+_ $Name$_get_name((slice) v) inline {
+    var (v'name) = v;
+    return v'name;
+}
+
+((slice)) $Name$_constructor_name(slice name) inline {
+    return (name);
+}
+
+;;
+;; Type: AddressBook
+;;
+
+builder $AddressBook$_store(builder build_0, (slice, cell, cell, int) v) inline {
+    var (v'owner, v'user_list, v'reversed_list, v'counter) = v;
+    build_0 = __tact_store_address(build_0, v'owner);
+    build_0 = build_0.store_dict(v'user_list);
+    build_0 = build_0.store_dict(v'reversed_list);
+    build_0 = build_0.store_uint(v'counter, 32);
+    return build_0;
+}
+
+(slice, ((slice, cell, cell, int))) $AddressBook$_load(slice sc_0) inline {
+    var v'owner = sc_0~__tact_load_address();
+    var v'user_list = sc_0~load_dict();
+    var v'reversed_list = sc_0~load_dict();
+    var v'counter = sc_0~load_uint(32);
+    return (sc_0, (v'owner, v'user_list, v'reversed_list, v'counter));
+}
+
+(slice, ((slice))) $AddressBook$init$_load(slice sc_0) inline {
+    var v'owner = sc_0~__tact_load_address();
+    return (sc_0, (v'owner));
+}
+
+(slice, cell, cell, int) $AddressBook$_contract_load() impure inline_ref {
+    slice $sc = get_data().begin_parse();
+    __tact_context_sys = $sc~load_ref();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$AddressBook$_load();
+    } else {
+        ;; Allow only workchain deployments
+        throw_unless(137, my_address().preload_uint(11) == 1024);
+        (slice owner) = $sc~$AddressBook$init$_load();
+        $sc.end_parse();
+        return $AddressBook$_contract_init(owner);
+    }
+}
+
+() $AddressBook$_contract_store((slice, cell, cell, int) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_ref(__tact_context_sys);
+    b = b.store_int(true, 1);
+    b = $AddressBook$_store(b, v);
+    set_data(b.end_cell());
+}

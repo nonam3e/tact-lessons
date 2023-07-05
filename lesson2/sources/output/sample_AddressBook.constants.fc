@@ -1,0 +1,11 @@
+;; String " sent "
+slice __gen_slice_string_5aeae3b66f7e31bc21181c36555bab0c0a4ac8c25399dd0719b3e5a766cf8a3b() asm "B{b5ee9c7241010101000800000c2073656e742016959947} B>boc <s PUSHSLICE";
+
+;; String " message(s) ("
+slice __gen_slice_string_32d6d38a0bd3cda0c21afb32efb6b14e69f5e3a11c658be5146820d08fdf7e11() asm "B{b5ee9c7241010101000f00001a206d657373616765287329202866c57dc3} B>boc <s PUSHSLICE";
+
+;; String "%) and received "
+slice __gen_slice_string_d7925661f29a1382e038b36bae53f8e06a89369ea3083b77dd7c45db8901078d() asm "B{b5ee9c72410101010012000020252920616e6420726563656976656420a44d0e2c} B>boc <s PUSHSLICE";
+
+;; String "%)"
+slice __gen_slice_string_e9f9e9cbcea9276194311dd503e01fdab83cd37d1ebbebd32e11e821d03f483e() asm "B{b5ee9c72410101010004000004252968d8ebbf} B>boc <s PUSHSLICE";

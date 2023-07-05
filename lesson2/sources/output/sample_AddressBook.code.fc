@@ -1,0 +1,218 @@
+#pragma version =0.4.3;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+#include "sample_AddressBook.headers.fc";
+#include "sample_AddressBook.stdlib.fc";
+#include "sample_AddressBook.constants.fc";
+#include "sample_AddressBook.storage.fc";
+
+;;
+;; Contract AddressBook functions
+;;
+
+(slice, cell, cell, int) $AddressBook$_contract_init(slice $owner) impure inline_ref {
+    var (($self'owner, $self'user_list, $self'reversed_list, $self'counter)) = (null(), null(), null(), 0);
+    $self'owner = $owner;
+    $self'user_list = null();
+    $self'reversed_list = null();
+    return ($self'owner, $self'user_list, $self'reversed_list, $self'counter);
+}
+
+((slice, cell, cell, int), tuple) $AddressBook$_fun_get_stat((slice, cell, cell, int) $self, slice $str) impure inline_ref {
+    var (($self'owner, $self'user_list, $self'reversed_list, $self'counter)) = $self;
+    return (($self'owner, $self'user_list, $self'reversed_list, $self'counter), $User$_load_opt(__tact_dict_get_uint_cell($self'user_list, 256, string_hash($str))));
+}
+
+((slice, cell, cell, int), slice) $AddressBook$_fun_get_username((slice, cell, cell, int) $self, slice $address) impure inline_ref {
+    var (($self'owner, $self'user_list, $self'reversed_list, $self'counter)) = $self;
+    tuple $result = $Name$_load_opt(__tact_dict_get_slice_cell($self'reversed_list, 267, $address));
+    if (null?($result)) {
+        return (($self'owner, $self'user_list, $self'reversed_list, $self'counter), null());
+    } else {
+        return (($self'owner, $self'user_list, $self'reversed_list, $self'counter), $Name$_get_name($Name$_not_null($result)));
+    }
+}
+
+((slice, cell, cell, int), ()) $AddressBook$_fun_requireOwner((slice, cell, cell, int) $self) impure inline_ref {
+    var (($self'owner, $self'user_list, $self'reversed_list, $self'counter)) = $self;
+    throw_unless(132, ( __tact_slice_eq_bits($self'owner, __tact_context_get_sender()) ));
+    return (($self'owner, $self'user_list, $self'reversed_list, $self'counter), ());
+}
+
+((slice, cell, cell, int), slice) $AddressBook$_fun_owner((slice, cell, cell, int) $self) impure inline_ref {
+    var (($self'owner, $self'user_list, $self'reversed_list, $self'counter)) = $self;
+    return (($self'owner, $self'user_list, $self'reversed_list, $self'counter), $self'owner);
+}
+
+;;
+;; Receivers of a Contract AddressBook
+;;
+
+(((slice, cell, cell, int)), ()) $AddressBook$_internal_binary_AddUserMessage((slice, cell, cell, int) $self, (slice, slice) $msg) impure inline {
+    var ($self'owner, $self'user_list, $self'reversed_list, $self'counter) = $self;
+    var ($msg'name, $msg'address) = $msg;
+    ($self'owner, $self'user_list, $self'reversed_list, $self'counter)~$AddressBook$_fun_requireOwner();
+    int $hash = string_hash($msg'name);
+    $self'user_list~__tact_dict_set_uint_cell(256, $hash, $User$_store_cell($User$_constructor_name_address($msg'name, $msg'address)));
+    $self'reversed_list~__tact_dict_set_slice_cell(267, $msg'address, $Name$_store_cell($Name$_constructor_name($msg'name)));
+    return (($self'owner, $self'user_list, $self'reversed_list, $self'counter), ());
+}
+
+(((slice, cell, cell, int)), ()) $AddressBook$_internal_binary_RemoveUserMessage((slice, cell, cell, int) $self, (slice) $msg) impure inline {
+    var ($self'owner, $self'user_list, $self'reversed_list, $self'counter) = $self;
+    var ($msg'name) = $msg;
+    ($self'owner, $self'user_list, $self'reversed_list, $self'counter)~$AddressBook$_fun_requireOwner();
+    int $hash = string_hash($msg'name);
+    var ($user'name, $user'address, $user'received_count, $user'sent_count) = $User$_not_null($User$_load_opt(__tact_dict_get_uint_cell($self'user_list, 256, $hash)));
+    $self'user_list~__tact_dict_set_uint_cell(256, $hash, $User$_store_opt(null()));
+    $self'reversed_list~__tact_dict_set_slice_cell(267, $user'address, $Name$_store_opt(null()));
+    return (($self'owner, $self'user_list, $self'reversed_list, $self'counter), ());
+}
+
+(((slice, cell, cell, int)), ()) $AddressBook$_internal_binary_ProxyMessage((slice, cell, cell, int) $self, (slice, slice) $msg) impure inline {
+    var ($self'owner, $self'user_list, $self'reversed_list, $self'counter) = $self;
+    var ($msg'to, $msg'message) = $msg;
+    slice $sender_name = $Name$_get_name($Name$_not_null($Name$_load_opt(__tact_dict_get_slice_cell($self'reversed_list, 267, __tact_context_get_sender()))));
+    int $sender_hash = string_hash($sender_name);
+    int $receiver_hash = string_hash($msg'to);
+    var ($receiver'name, $receiver'address, $receiver'received_count, $receiver'sent_count) = $User$_not_null($User$_load_opt(__tact_dict_get_uint_cell($self'user_list, 256, $receiver_hash)));
+    $global_send($SendParameters$_constructor_to_value_mode_body($receiver'address, 0, 64, $String$_fun_asComment($msg'message)));
+    $self'counter = ($self'counter + 1);
+    var ($sender'name, $sender'address, $sender'received_count, $sender'sent_count) = $User$_not_null($User$_load_opt(__tact_dict_get_uint_cell($self'user_list, 256, $sender_hash)));
+    $self'user_list~__tact_dict_set_uint_cell(256, $receiver_hash, $User$_store_cell($User$_constructor_name_address_received_count_sent_count($receiver'name, $receiver'address, ($receiver'received_count + 1), $receiver'sent_count)));
+    $self'user_list~__tact_dict_set_uint_cell(256, $sender_hash, $User$_store_cell($User$_constructor_name_address_received_count_sent_count($sender'name, $sender'address, $sender'received_count, ($sender'sent_count + 1))));
+    return (($self'owner, $self'user_list, $self'reversed_list, $self'counter), ());
+}
+
+((slice, cell, cell, int), ()) $AddressBook$_internal_any_text((slice, cell, cell, int) $self, slice $str) impure inline {
+    var ($self'owner, $self'user_list, $self'reversed_list, $self'counter) = $self;
+    var ($user'name, $user'address, $user'received_count, $user'sent_count) = $User$_not_null($User$_load_opt(__tact_dict_get_uint_cell($self'user_list, 256, string_hash($str))));
+    tuple $str_builder = __tact_string_builder_start_comment();
+    $str_builder~__tact_string_builder_append($user'name);
+    $str_builder~__tact_string_builder_append(__gen_slice_string_5aeae3b66f7e31bc21181c36555bab0c0a4ac8c25399dd0719b3e5a766cf8a3b());
+    $str_builder~__tact_string_builder_append(__tact_int_to_string($user'sent_count));
+    $str_builder~__tact_string_builder_append(__gen_slice_string_32d6d38a0bd3cda0c21afb32efb6b14e69f5e3a11c658be5146820d08fdf7e11());
+    $str_builder~__tact_string_builder_append(__tact_float_to_string((($user'sent_count * 10000) / $self'counter), 2));
+    $str_builder~__tact_string_builder_append(__gen_slice_string_d7925661f29a1382e038b36bae53f8e06a89369ea3083b77dd7c45db8901078d());
+    $str_builder~__tact_string_builder_append(__tact_int_to_string($user'received_count));
+    $str_builder~__tact_string_builder_append(__gen_slice_string_32d6d38a0bd3cda0c21afb32efb6b14e69f5e3a11c658be5146820d08fdf7e11());
+    $str_builder~__tact_string_builder_append(__tact_float_to_string((($user'received_count * 10000) / $self'counter), 2));
+    $str_builder~__tact_string_builder_append(__gen_slice_string_e9f9e9cbcea9276194311dd503e01fdab83cd37d1ebbebd32e11e821d03f483e());
+    ($self'owner, $self'user_list, $self'reversed_list, $self'counter)~$AddressBook$_fun_reply(__tact_string_builder_end($str_builder));
+    return (($self'owner, $self'user_list, $self'reversed_list, $self'counter), ());
+}
+
+;;
+;; Get methods of a Contract AddressBook
+;;
+
+_ %get_stat(slice $$str) method_id(92290) {
+    slice $str = $$str;
+    var self = $AddressBook$_contract_load();
+    var res = self~$AddressBook$_fun_get_stat($str);
+    return $User$_to_opt_external(res);
+}
+
+_ %get_username(slice $$address) method_id(118054) {
+    slice $address = __tact_verify_address($$address);
+    var self = $AddressBook$_contract_load();
+    var res = self~$AddressBook$_fun_get_username($address);
+    return res;
+}
+
+_ %owner() method_id(83229) {
+    var self = $AddressBook$_contract_load();
+    var res = self~$AddressBook$_fun_owner();
+    return res;
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128,
+        "org.ton.deploy.lazy.v0"H >> 128,
+        "org.ton.chain.workchain.v0"H >> 128,
+        "org.ton.ownable"H >> 128
+    );
+}
+
+_ get_abi_ipfs() method_id {
+    return "ipfs://QmZ4SpusXgzdbm1V4FjbVb8PV9pMxwaBNzsM6eZ5FiNw9g";
+}
+
+_ lazy_deployment_completed() method_id {
+    return get_data().begin_parse().load_int(1);
+}
+
+;;
+;; Routing of a Contract AddressBook
+;;
+
+((slice, cell, cell, int), int) $AddressBook$_contract_router_internal((slice, cell, cell, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return (self, true);
+    }
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    
+    
+    ;; Receive AddUserMessage message
+    if (op == 2489292823) {
+        var msg = in_msg~$AddUserMessage$_load();
+        self~$AddressBook$_internal_binary_AddUserMessage(msg);
+        return (self, true);
+    }
+    
+    ;; Receive RemoveUserMessage message
+    if (op == 627615024) {
+        var msg = in_msg~$RemoveUserMessage$_load();
+        self~$AddressBook$_internal_binary_RemoveUserMessage(msg);
+        return (self, true);
+    }
+    
+    ;; Receive ProxyMessage message
+    if (op == 2191829001) {
+        var msg = in_msg~$ProxyMessage$_load();
+        self~$AddressBook$_internal_binary_ProxyMessage(msg);
+        return (self, true);
+    }
+    
+    ;; Text Receivers
+    if (op == 0) {
+        if (slice_bits(in_msg) >= 32) {
+            self~$AddressBook$_internal_any_text(in_msg.skip_bits(32));
+            return (self, true);
+        }
+    }
+    
+    return (self, false);
+}
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = -(msg_flags & 1);
+    slice msg_sender_addr = __tact_verify_address(cs~load_msg_addr());
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var self = $AddressBook$_contract_load();
+    
+    ;; Handle operation
+    int handled = self~$AddressBook$_contract_router_internal(msg_bounced, in_msg);
+    
+    ;; Throw if not handled
+    throw_unless(130, handled);
+    
+    ;; Persist state
+    $AddressBook$_contract_store(self);
+}
