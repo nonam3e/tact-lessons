@@ -1,0 +1,608 @@
+PROGRAM{
+  DECLPROC __tact_verify_address
+  DECLPROC __tact_load_address
+  DECLPROC __tact_store_address
+  DECLPROC __tact_my_balance
+  DECLPROC __tact_not_null
+  DECLPROC __tact_context_get
+  DECLPROC __tact_context_get_sender
+  DECLPROC __tact_store_bool
+  DECLPROC $SendParameters$_store
+  DECLPROC $SendParameters$_store_cell
+  DECLPROC $SendParameters$_load
+  DECLPROC $Deploy$_load
+  DECLPROC $DeployOk$_store
+  DECLPROC $DeployOk$_store_cell
+  DECLPROC $ExtMessage$_load
+  DECLPROC $TactWallet$_store
+  DECLPROC $TactWallet$_load
+  DECLPROC $StateInit$_not_null
+  DECLPROC $TactWallet$init$_load
+  DECLPROC $TactWallet$_contract_init
+  DECLPROC $TactWallet$_contract_load
+  DECLPROC $TactWallet$_contract_store
+  DECLPROC $global_send
+  DECLPROC $TactWallet$_fun_seqno
+  DECLPROC $TactWallet$_fun_get_public_key
+  DECLPROC $SendParameters$_constructor_bounce_to_value_mode_body_code_data
+  DECLPROC $TactWallet$_fun_forward
+  DECLPROC $TactWallet$_fun_notify
+  DECLPROC $DeployOk$_constructor_queryId
+  DECLPROC %$TactWallet$_internal_empty
+  DECLPROC $TactWallet$_internal_any_text
+  DECLPROC $TactWallet$_internal_any
+  DECLPROC $TactWallet$_external_binary_ExtMessage
+  DECLPROC $TactWallet$_internal_binary_Deploy
+  85143 DECLMETHOD %seqno
+  78748 DECLMETHOD %get_public_key
+  113617 DECLMETHOD supported_interfaces
+  121275 DECLMETHOD get_abi_ipfs
+  115390 DECLMETHOD lazy_deployment_completed
+  DECLPROC $TactWallet$_contract_router_internal
+  DECLPROC $TactWallet$_contract_router_external
+  DECLPROC recv_internal
+  DECLPROC recv_external
+  DECLGLOBVAR __tact_context
+  DECLGLOBVAR __tact_context_sender
+  DECLGLOBVAR __tact_context_sys
+  DECLGLOBVAR __tact_randomized
+  __tact_verify_address PROCINLINE:<{
+    DUP
+    SBITS
+    267 PUSHINT
+    EQUAL
+    136 THROWIFNOT
+    DUP
+    11 PLDU
+    DUP
+    1279 PUSHINT
+    EQUAL
+    137 THROWIF
+    10 PUSHPOW2
+    EQUAL
+    136 THROWIFNOT
+  }>
+  __tact_load_address PROCINLINE:<{
+    LDMSGADDR
+    SWAP
+    __tact_verify_address INLINECALLDICT
+  }>
+  __tact_store_address PROCINLINE:<{
+    __tact_verify_address INLINECALLDICT
+    STSLICER
+  }>
+  __tact_my_balance PROCINLINE:<{
+    BALANCE
+    FIRST
+  }>
+  __tact_not_null PROCINLINE:<{
+    DUP
+    ISNULL
+    128 THROWIF
+  }>
+  __tact_context_get PROCINLINE:<{
+    __tact_context GETGLOB
+    4 UNTUPLE
+  }>
+  __tact_context_get_sender PROCINLINE:<{
+    __tact_context_sender GETGLOB
+  }>
+  __tact_store_bool PROCINLINE:<{
+    SWAP
+    1 STI
+  }>
+  $SendParameters$_store PROCREF:<{
+    s6 s7 XCHG2
+    1 STI
+    s0 s4 XCHG2
+    __tact_store_address INLINECALLDICT
+    s1 s2 XCHG
+    257 PUSHINT
+    STIX
+    257 PUSHINT
+    STIX
+    OVER
+    ISNULL
+    NOT
+    IF:<{
+      TRUE
+      SWAP
+      1 STI
+      STREF
+    }>ELSE<{
+      FALSE
+      s2 POP
+      1 STI
+    }>
+    OVER
+    ISNULL
+    NOT
+    IF:<{
+      TRUE
+      SWAP
+      1 STI
+      STREF
+    }>ELSE<{
+      FALSE
+      s2 POP
+      1 STI
+    }>
+    OVER
+    ISNULL
+    NOT
+    IF:<{
+      TRUE
+      SWAP
+      1 STI
+      STREF
+    }>ELSE<{
+      FALSE
+      s2 POP
+      1 STI
+    }>
+  }>
+  $SendParameters$_store_cell PROCINLINE:<{
+    NEWC
+    7 -ROLL
+    $SendParameters$_store INLINECALLDICT
+    ENDC
+  }>
+  $SendParameters$_load PROCREF:<{
+    1 LDI
+    __tact_load_address INLINECALLDICT
+    SWAP
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    1 LDI
+    SWAP
+    IF:<{
+      LDREF
+    }>ELSE<{
+      PUSHNULL
+      SWAP
+    }>
+    1 LDI
+    SWAP
+    IF:<{
+      LDREF
+    }>ELSE<{
+      PUSHNULL
+      SWAP
+    }>
+    1 LDI
+    SWAP
+    IF:<{
+      LDREF
+    }>ELSE<{
+      PUSHNULL
+      SWAP
+    }>
+    7 -ROLL
+  }>
+  $Deploy$_load PROCINLINE:<{
+    32 LDU
+    SWAP
+    2490013878 PUSHINT
+    EQUAL
+    129 THROWIFNOT
+    64 LDU
+    SWAP
+  }>
+  $DeployOk$_store PROCINLINE:<{
+    2952335191 PUSHINT
+    ROT
+    32 STU
+    64 STU
+  }>
+  $DeployOk$_store_cell PROCINLINE:<{
+    NEWC
+    SWAP
+    $DeployOk$_store INLINECALLDICT
+    ENDC
+  }>
+  $ExtMessage$_load PROCINLINE:<{
+    32 LDU
+    SWAP
+    3240438462 PUSHINT
+    EQUAL
+    129 THROWIFNOT
+    9 PUSHPOW2
+    LDSLICEX
+    32 LDU
+    32 LDU
+    LDREF
+    SWAP
+    CTOS
+    $SendParameters$_load INLINECALLDICT
+    s7 POP
+    s7 s10 XCHG
+    s7 s9 XCHG
+    s7 s8 XCHG
+    6 ROLL
+  }>
+  $TactWallet$_store PROCINLINE:<{
+    s0 s2 XCHG
+    32 STU
+    256 STU
+  }>
+  $TactWallet$_load PROCINLINE:<{
+    32 LDU
+    256 LDU
+    -ROT
+  }>
+  $StateInit$_not_null PROCINLINE:<{
+    DUP
+    ISNULL
+    128 THROWIF
+    2 UNTUPLE
+  }>
+  $TactWallet$init$_load PROCINLINE:<{
+    257 PUSHINT
+    LDIX
+    SWAP
+  }>
+  $TactWallet$_contract_init PROCREF:<{
+    0 PUSHINT
+    SWAP
+  }>
+  $TactWallet$_contract_load PROCREF:<{
+    c4 PUSH
+    CTOS
+    LDREF
+    SWAP
+    __tact_context_sys SETGLOB
+    1 LDI
+    SWAP
+    IFJMP:<{
+      $TactWallet$_load INLINECALLDICT
+      1 2 BLKDROP2
+    }>
+    MYADDR
+    11 PLDU
+    10 PUSHPOW2
+    EQUAL
+    137 THROWIFNOT
+    $TactWallet$init$_load INLINECALLDICT
+    SWAP
+    ENDS
+    $TactWallet$_contract_init INLINECALLDICT
+  }>
+  $TactWallet$_contract_store PROCINLINE:<{
+    NEWC
+    __tact_context_sys GETGLOB
+    SWAP
+    STREF
+    TRUE
+    SWAP
+    1 STI
+    -ROT
+    $TactWallet$_store INLINECALLDICT
+    ENDC
+    c4 POP
+  }>
+  $global_send PROCREF:<{
+    NEWC
+    1 PUSHINT
+    SWAP
+    2 STI
+    s0 s7 XCHG2
+    __tact_store_bool INLINECALLDICT
+    0 PUSHINT
+    SWAP
+    3 STI
+    s0 s5 XCHG2
+    __tact_store_address INLINECALLDICT
+    s0 s3 XCHG2
+    STGRAMS
+    0 PUSHINT
+    SWAP
+    105 STI
+    s3 PUSH
+    ISNULL
+    NOT
+    IF:<{
+      TRUE
+    }>ELSE<{
+      s4 PUSH
+      ISNULL
+      NOT
+    }>
+    IF:<{
+      TRUE
+      __tact_store_bool INLINECALLDICT
+      NEWC
+      FALSE
+      __tact_store_bool INLINECALLDICT
+      FALSE
+      __tact_store_bool INLINECALLDICT
+      s4 PUSH
+      ISNULL
+      NOT
+      IF:<{
+        TRUE
+        __tact_store_bool INLINECALLDICT
+        s0 s4 XCHG
+        __tact_not_null INLINECALLDICT
+        s0 s4 XCHG2
+        STREF
+      }>ELSE<{
+        s4 POP
+        s0 s3 XCHG
+        FALSE
+        __tact_store_bool INLINECALLDICT
+      }>
+      s4 PUSH
+      ISNULL
+      NOT
+      IF:<{
+        TRUE
+        __tact_store_bool INLINECALLDICT
+        s0 s4 XCHG
+        __tact_not_null INLINECALLDICT
+        s0 s4 XCHG2
+        STREF
+      }>ELSE<{
+        s4 POP
+        s0 s3 XCHG
+        FALSE
+        __tact_store_bool INLINECALLDICT
+      }>
+      FALSE
+      __tact_store_bool INLINECALLDICT
+      s0 s2 XCHG
+      TRUE
+      __tact_store_bool INLINECALLDICT
+      s0 s2 XCHG
+      ENDC
+      ROT
+      STREF
+    }>ELSE<{
+      s3 POP
+      s3 POP
+      SWAP
+      FALSE
+      __tact_store_bool INLINECALLDICT
+    }>
+    OVER
+    ISNULL
+    NOT
+    IF:<{
+      TRUE
+      __tact_store_bool INLINECALLDICT
+      SWAP
+      __tact_not_null INLINECALLDICT
+      SWAP
+      STREF
+    }>ELSE<{
+      NIP
+      FALSE
+      __tact_store_bool INLINECALLDICT
+    }>
+    ENDC
+    SWAP
+    SENDRAWMSG
+  }>
+  $TactWallet$_fun_seqno PROCREF:<{
+    OVER
+  }>
+  $TactWallet$_fun_get_public_key PROCREF:<{
+    DUP
+  }>
+  $SendParameters$_constructor_bounce_to_value_mode_body_code_data PROCINLINE:<{
+  }>
+  $TactWallet$_fun_forward PROCREF:<{
+    PUSHNULL
+    PUSHNULL
+    s2 PUSH
+    ISNULL
+    NOT
+    IF:<{
+      2DROP
+      $StateInit$_not_null INLINECALLDICT
+      SWAP
+    }>ELSE<{
+      s2 POP
+    }>
+    s2 s4 XCHG
+    0 PUSHINT
+    s0 s3 XCHG
+    s0 s4 XCHG
+    66 PUSHINT
+    s2 s3 XCHG2
+    $SendParameters$_constructor_bounce_to_value_mode_body_code_data INLINECALLDICT
+    $global_send INLINECALLDICT
+  }>
+  $TactWallet$_fun_notify PROCINLINE:<{
+    __tact_context_get_sender INLINECALLDICT
+    SWAP
+    FALSE
+    PUSHNULL
+    $TactWallet$_fun_forward INLINECALLDICT
+  }>
+  $DeployOk$_constructor_queryId PROCINLINE:<{
+  }>
+  %$TactWallet$_internal_empty PROCINLINE:<{
+  }>
+  $TactWallet$_internal_any_text PROCINLINE:<{
+    DROP
+  }>
+  $TactWallet$_internal_any PROCINLINE:<{
+    DROP
+  }>
+  $TactWallet$_external_binary_ExtMessage PROCINLINE:<{
+    s8 PUSH
+    NEWC
+    32 STU
+    s8 s(-1) PUXC
+    32 STU
+    s7 s6 s5 PUSH3
+    s7 s6 s5 PUSH3
+    s7 PUSH
+    $SendParameters$_store_cell INLINECALLDICT
+    SWAP
+    STREF
+    ENDC
+    HASHCU
+    9577 PUSHINT
+    s11 s12 XCPU
+    CHKSIGNU
+    s1 s10 XCHG
+    THROWANYIFNOT
+    30508 PUSHINT
+    s8 s11 XCPU
+    EQUAL
+    s1 s8 XCHG
+    THROWANYIFNOT
+    12033 PUSHINT
+    NOW
+    s0 s7 XCHG2
+    LEQ
+    s1 s6 XCHG
+    THROWANYIFNOT
+    ACCEPT
+    s0 s8 XCHG
+    INC
+    s3 s6 XCHG
+    s5 s1 s8 XCHG3
+    s4 s4 s3 XCHG3
+    $global_send INLINECALLDICT
+  }>
+  $TactWallet$_internal_binary_Deploy PROCINLINE:<{
+    $DeployOk$_constructor_queryId INLINECALLDICT
+    $DeployOk$_store_cell INLINECALLDICT
+    $TactWallet$_fun_notify INLINECALLDICT
+  }>
+  %seqno PROC:<{
+    $TactWallet$_contract_load INLINECALLDICT
+    $TactWallet$_fun_seqno INLINECALLDICT
+    2 1 BLKDROP2
+  }>
+  %get_public_key PROC:<{
+    $TactWallet$_contract_load INLINECALLDICT
+    $TactWallet$_fun_get_public_key INLINECALLDICT
+    2 1 BLKDROP2
+  }>
+  supported_interfaces PROC:<{
+    123515602279859691144772641439386770278 PUSHINT
+    209801025412363888721030803524359905849 PUSHINT
+    42980537499636128163026532310500881091 PUSHINT
+    209474421377847335869795010607481022628 PUSHINT
+  }>
+  get_abi_ipfs PROC:<{
+    x{697066733a2f2f516d51373957617a38544a6d47597242724b794d6d37644c616f426d333146524c384c7166517859585947707a65} PUSHSLICE
+  }>
+  lazy_deployment_completed PROC:<{
+    c4 PUSH
+    CTOS
+    1 LDI
+    SWAP
+  }>
+  $TactWallet$_contract_router_internal PROCREF:<{
+    c2 SAVE
+    SAMEALTSAVE
+    SWAP
+    IFJMP:<{
+      DROP
+      TRUE
+    }>
+    0 PUSHINT
+    OVER
+    SBITS
+    31 GTINT
+    IF:<{
+      DROP
+      DUP
+      32 PLDU
+    }>
+    DUP
+    0 EQINT
+    s2 PUSH
+    SBITS
+    33 LESSINT
+    AND
+    IFJMP:<{
+      2DROP
+      %$TactWallet$_internal_empty INLINECALLDICT
+      TRUE
+    }>
+    DUP
+    2490013878 PUSHINT
+    EQUAL
+    IFJMP:<{
+      DROP
+      $Deploy$_load INLINECALLDICT
+      NIP
+      $TactWallet$_internal_binary_Deploy INLINECALLDICT
+      TRUE
+    }>
+    0 EQINT
+    IF:<{
+      DUP
+      SBITS
+      31 GTINT
+      IFJMP:<{
+        32 PUSHINT
+        SDSKIPFIRST
+        $TactWallet$_internal_any_text INLINECALLDICT
+        TRUE
+        RETALT
+      }>
+    }>
+    $TactWallet$_internal_any INLINECALLDICT
+    TRUE
+  }>
+  $TactWallet$_contract_router_external PROCREF:<{
+    0 PUSHINT
+    OVER
+    SBITS
+    31 GTINT
+    IF:<{
+      DROP
+      DUP
+      32 PLDU
+    }>
+    3240438462 PUSHINT
+    EQUAL
+    IFJMP:<{
+      $ExtMessage$_load INLINECALLDICT
+      1 10 BLKDROP2
+      $TactWallet$_external_binary_ExtMessage INLINECALLDICT
+      TRUE
+    }>
+    DROP
+    FALSE
+  }>
+  recv_internal PROC:<{
+    SWAP
+    CTOS
+    4 LDU
+    SWAP
+    1 PUSHINT
+    AND
+    NEGATE
+    SWAP
+    LDMSGADDR
+    SWAP
+    __tact_verify_address INLINECALLDICT
+    s0 s4 s2 PUXCPU
+    s0 s3 XCHG
+    4 TUPLE
+    __tact_context SETGLOB
+    s0 s2 XCHG
+    __tact_context_sender SETGLOB
+    $TactWallet$_contract_load INLINECALLDICT
+    2SWAP
+    $TactWallet$_contract_router_internal INLINECALLDICT
+    130 THROWIFNOT
+    $TactWallet$_contract_store INLINECALLDICT
+  }>
+  recv_external PROC:<{
+    $TactWallet$_contract_load INLINECALLDICT
+    ROT
+    $TactWallet$_contract_router_external INLINECALLDICT
+    DROP
+    $TactWallet$_contract_store INLINECALLDICT
+  }>
+}END>c

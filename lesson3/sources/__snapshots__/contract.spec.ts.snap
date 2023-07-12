@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`contract should deploy correctly 1`] = `
+[
+  {
+    "$seq": 1,
+    "events": [
+      {
+        "$type": "storage-charged",
+        "amount": "0.000000006",
+      },
+      {
+        "$type": "received",
+        "message": {
+          "body": {
+            "cell": "x{C1252ABE62F927D03E6C41C0673A5340429CAE4B23848930511585EE8094659144054537BC4256AE4765D0953FF861CFD71B11ABA633CB063917CBEA97CC5A63B9D884060000000064AEF374}
+ x{C002483CBCA53D072C89FB2BD8C2CC471AB55F00936FD9D7C95DA2471BB40C308640000000000000000000000000000000000000000000000000000000002FAF080000000000000000000000000000000000000000000000000000000000000000064_}
+  x{0000000048656C6C6F2043726561746F7221}",
+            "type": "cell",
+          },
+          "to": "kQCy_sNQY564o8vpBRBqe3Y4EGn2jU5b2WRaitSqagRc8AFJ",
+          "type": "external-in",
+        },
+      },
+      {
+        "$type": "processed",
+        "gasUsed": 9514n,
+      },
+      {
+        "$type": "sent",
+        "messages": [
+          {
+            "body": {
+              "text": "Hello Creator!",
+              "type": "text",
+            },
+            "bounce": true,
+            "from": "kQCy_sNQY564o8vpBRBqe3Y4EGn2jU5b2WRaitSqagRc8AFJ",
+            "to": "@treasure(creator)",
+            "type": "internal",
+            "value": "0.1",
+          },
+        ],
+      },
+    ],
+  },
+]
+`;
