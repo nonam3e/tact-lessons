@@ -52,6 +52,25 @@ contract TokenMaster with OwnableTransferable, Deployable {
         });
     }
 
+    receive(msg: ProvideWalletAddress) {
+        let ctx: Context = context();
+        let wallet: Address = contractAddress(initOf TokenWallet(msg.owner_address, myAddress()));
+        let owner_address: Address? = null;
+        if (msg.include_address) {
+            owner_address = msg.owner_address;
+        }
+        send(SendParameters {
+            to: ctx.sender,
+            value: 0,
+            mode: SendRemainingValue,
+            body: TakeWalletAddress{
+                queryId: msg.queryId,
+                wallet_address: wallet,
+                owner_address: owner_address
+            }.toCell()
+        });
+    }
+
     receive("Stop Mint") {
         self.requireOwner();
         self.mintable = false;

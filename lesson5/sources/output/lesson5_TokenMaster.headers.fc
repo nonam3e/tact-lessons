@@ -12,6 +12,9 @@ slice __tact_verify_address(slice address) inline;
 ;; __tact_store_address
 builder __tact_store_address(builder b, slice address) inline;
 
+;; __tact_store_address_opt
+builder __tact_store_address_opt(builder b, slice address) inline;
+
 ;; __tact_create_address
 slice __tact_create_address(int chain, int hash) inline;
 
@@ -80,6 +83,15 @@ cell $Excesses$_store_cell((int) v) inline;
 
 ;; $ChangeContent$_load
 (slice, ((cell))) $ChangeContent$_load(slice sc_0) inline;
+
+;; $ProvideWalletAddress$_load
+(slice, ((int, slice, int))) $ProvideWalletAddress$_load(slice sc_0) inline;
+
+;; $TakeWalletAddress$_store
+builder $TakeWalletAddress$_store(builder build_0, (int, slice, slice) v) inline;
+
+;; $TakeWalletAddress$_store_cell
+cell $TakeWalletAddress$_store_cell((int, slice, slice) v) inline;
 
 ;; $TokenMaster$_store
 builder $TokenMaster$_store(builder build_0, (int, int, slice, cell) v) inline;
@@ -158,6 +170,9 @@ int $Context$_fun_readForwardFee((int, slice, int, slice) $self) impure inline_r
 
 ;; $SendParameters$_constructor_to_value_mode_body
 ((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_value_mode_body(slice to, int value, int mode, cell body) inline;
+
+;; $TakeWalletAddress$_constructor_queryId_wallet_address_owner_address
+((int, slice, slice)) $TakeWalletAddress$_constructor_queryId_wallet_address_owner_address(int queryId, slice wallet_address, slice owner_address) inline;
 
 ;; $Excesses$_constructor_query_id
 ((int)) $Excesses$_constructor_query_id(int query_id) inline;

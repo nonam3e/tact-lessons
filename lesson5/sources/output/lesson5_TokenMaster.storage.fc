@@ -192,6 +192,43 @@ cell $Excesses$_store_cell((int) v) inline {
 }
 
 ;;
+;; Type: ProvideWalletAddress
+;; Header: 0x2c76b973
+;; TLB: provide_wallet_address#2c76b973 queryId:uint64 owner_address:address include_address:bool = ProvideWalletAddress
+;;
+
+(slice, ((int, slice, int))) $ProvideWalletAddress$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 745978227);
+    var v'queryId = sc_0~load_uint(64);
+    var v'owner_address = sc_0~__tact_load_address();
+    var v'include_address = sc_0~load_int(1);
+    return (sc_0, (v'queryId, v'owner_address, v'include_address));
+}
+
+;;
+;; Type: TakeWalletAddress
+;; Header: 0xd1735400
+;; TLB: take_wallet_address#d1735400 queryId:uint64 wallet_address:address owner_address:Maybe address = TakeWalletAddress
+;;
+
+builder $TakeWalletAddress$_store(builder build_0, (int, slice, slice) v) inline {
+    var (v'queryId, v'wallet_address, v'owner_address) = v;
+    build_0 = store_uint(build_0, 3513996288, 32);
+    build_0 = build_0.store_uint(v'queryId, 64);
+    build_0 = __tact_store_address(build_0, v'wallet_address);
+    build_0 = __tact_store_address_opt(build_0, v'owner_address);
+    return build_0;
+}
+
+cell $TakeWalletAddress$_store_cell((int, slice, slice) v) inline {
+    return $TakeWalletAddress$_store(begin_cell(), v).end_cell();
+}
+
+((int, slice, slice)) $TakeWalletAddress$_constructor_queryId_wallet_address_owner_address(int queryId, slice wallet_address, slice owner_address) inline {
+    return (queryId, wallet_address, owner_address);
+}
+
+;;
 ;; Type: MasterData
 ;; TLB: _ total_supply:int257 mintable:bool owner:address jetton_content:^cell jetton_wallet_code:^cell = MasterData
 ;;

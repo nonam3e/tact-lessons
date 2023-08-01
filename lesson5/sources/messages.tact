@@ -48,3 +48,14 @@ message(0x7bdd97de) BurnNotification {
 message ChangeContent {
     jetton_content: Cell;
 }
+
+message(0x2c76b973) ProvideWalletAddress {
+    queryId: Int as uint64;
+    owner_address: Address;
+    include_address: Bool;
+}
+message(0xd1735400) TakeWalletAddress {
+    queryId: Int as uint64;
+    wallet_address: Address;
+    owner_address: Address?;
+}

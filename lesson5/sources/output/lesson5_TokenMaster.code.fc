@@ -65,6 +65,19 @@
     return (($self'total_supply, $self'mintable, $self'owner, $self'jetton_content), ());
 }
 
+(((int, int, slice, cell)), ()) $TokenMaster$_internal_binary_ProvideWalletAddress((int, int, slice, cell) $self, (int, slice, int) $msg) impure inline {
+    var ($self'total_supply, $self'mintable, $self'owner, $self'jetton_content) = $self;
+    var ($msg'queryId, $msg'owner_address, $msg'include_address) = $msg;
+    var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+    slice $wallet = $global_contractAddress($TokenWallet$_init_child(__tact_context_sys, $msg'owner_address, my_address()));
+    slice $owner_address = null();
+    if ($msg'include_address) {
+        $owner_address = $msg'owner_address;
+    }
+    $global_send($SendParameters$_constructor_to_value_mode_body($ctx'sender, 0, 64, $TakeWalletAddress$_store_cell($TakeWalletAddress$_constructor_queryId_wallet_address_owner_address($msg'queryId, $wallet, $owner_address))));
+    return (($self'total_supply, $self'mintable, $self'owner, $self'jetton_content), ());
+}
+
 ((int, int, slice, cell), ()) $TokenMaster$_internal_text_a2f43c647fca1834ba717617790fa8ce6fe6ee0cb77d0b3ef0a89a93b33176f2((int, int, slice, cell) $self) impure inline {
     var ($self'total_supply, $self'mintable, $self'owner, $self'jetton_content) = $self;
     ($self'total_supply, $self'mintable, $self'owner, $self'jetton_content)~$TokenMaster$_fun_requireOwner();
@@ -133,7 +146,7 @@ _ supported_interfaces() method_id {
 }
 
 _ get_abi_ipfs() method_id {
-    return "ipfs://QmQSGx7eEVLiXtHDtNH4FVny6rTQGGnqWDZrAQkUPrb1hT";
+    return "ipfs://QmTuzeXehnrkADobpSHeQx5pSvMcScik8sVAC1ix2SipqQ";
 }
 
 _ lazy_deployment_completed() method_id {
@@ -168,6 +181,13 @@ _ lazy_deployment_completed() method_id {
     if (op == 260144805) {
         var msg = in_msg~$Transfer$_load();
         self~$TokenMaster$_internal_binary_Transfer(msg);
+        return (self, true);
+    }
+    
+    ;; Receive ProvideWalletAddress message
+    if (op == 745978227) {
+        var msg = in_msg~$ProvideWalletAddress$_load();
+        self~$TokenMaster$_internal_binary_ProvideWalletAddress(msg);
         return (self, true);
     }
     
