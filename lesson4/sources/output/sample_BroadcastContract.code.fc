@@ -1,0 +1,205 @@
+#pragma version =0.4.3;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+#include "sample_BroadcastContract.headers.fc";
+#include "sample_BroadcastContract.stdlib.fc";
+#include "sample_BroadcastContract.storage.fc";
+
+;;
+;; Contract BroadcastContract functions
+;;
+
+(slice, cell, int) $BroadcastContract$_contract_init(slice $owner) impure inline_ref {
+    var (($self'owner, $self'address_list, $self'list_length)) = (null(), null(), 0);
+    $self'owner = $owner;
+    return ($self'owner, $self'address_list, $self'list_length);
+}
+
+tuple $global_DictGetMin(cell $dict) impure inline_ref {
+    var ($pair'key, $pair'value, $pair'flag) = idict_get_min?($dict, 257);
+    if ($pair'flag) {
+        return $DictPair$_as_optional($DictPair$_constructor_key_value(__tact_not_null($pair'key), __tact_not_null($pair'value)));
+    } else {
+        return null();
+    }
+}
+
+tuple $global_DictGetNext(cell $dict, int $pivot) impure inline_ref {
+    var ($pair'key, $pair'value, $pair'flag) = idict_get_next?($dict, 257, $pivot);
+    if ($pair'flag) {
+        return $DictPair$_as_optional($DictPair$_constructor_key_value(__tact_not_null($pair'key), __tact_not_null($pair'value)));
+    } else {
+        return null();
+    }
+}
+
+((slice, cell, int), cell) $BroadcastContract$_fun_address_list((slice, cell, int) $self) impure inline_ref {
+    var (($self'owner, $self'address_list, $self'list_length)) = $self;
+    return (($self'owner, $self'address_list, $self'list_length), $self'address_list);
+}
+
+((slice, cell, int), ()) $BroadcastContract$_fun_requireOwner((slice, cell, int) $self) impure inline_ref {
+    var (($self'owner, $self'address_list, $self'list_length)) = $self;
+    throw_unless(132, ( __tact_slice_eq_bits($self'owner, __tact_context_get_sender()) ));
+    return (($self'owner, $self'address_list, $self'list_length), ());
+}
+
+((slice, cell, int), slice) $BroadcastContract$_fun_owner((slice, cell, int) $self) impure inline_ref {
+    var (($self'owner, $self'address_list, $self'list_length)) = $self;
+    return (($self'owner, $self'address_list, $self'list_length), $self'owner);
+}
+
+;;
+;; Receivers of a Contract BroadcastContract
+;;
+
+(((slice, cell, int)), ()) $BroadcastContract$_internal_binary_AddMessage((slice, cell, int) $self, (slice) $msg) impure inline {
+    var ($self'owner, $self'address_list, $self'list_length) = $self;
+    var ($msg'address) = $msg;
+    ($self'owner, $self'address_list, $self'list_length)~$BroadcastContract$_fun_requireOwner();
+    int $hash = slice_hash(__tact_address_to_slice($msg'address));
+    throw_unless(44887, null?(__tact_dict_get_int_slice($self'address_list, 257, $hash)));
+    $self'address_list~__tact_dict_set_int_slice(257, $hash, $msg'address);
+    $self'list_length = ($self'list_length + 1);
+    return (($self'owner, $self'address_list, $self'list_length), ());
+}
+
+(((slice, cell, int)), ()) $BroadcastContract$_internal_binary_RemoveMessage((slice, cell, int) $self, (slice) $msg) impure inline {
+    var ($self'owner, $self'address_list, $self'list_length) = $self;
+    var ($msg'address) = $msg;
+    ($self'owner, $self'address_list, $self'list_length)~$BroadcastContract$_fun_requireOwner();
+    int $hash = slice_hash(__tact_address_to_slice($msg'address));
+    throw_unless(45737, (~ null?(__tact_dict_get_int_slice($self'address_list, 257, $hash))));
+    $self'address_list~__tact_dict_set_int_slice(257, $hash, null());
+    $self'list_length = ($self'list_length - 1);
+    return (($self'owner, $self'address_list, $self'list_length), ());
+}
+
+(((slice, cell, int)), ()) $BroadcastContract$_internal_binary_BroadcastMessage((slice, cell, int) $self, (slice) $msg) impure inline {
+    var ($self'owner, $self'address_list, $self'list_length) = $self;
+    var ($msg'message) = $msg;
+    ($self'owner, $self'address_list, $self'list_length)~$BroadcastContract$_fun_requireOwner();
+    var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+    throw_unless(17062, ($ctx'value >= ((10000000 * $self'list_length) + 30000000)));
+    int $send_value = (($ctx'value - 30000000) / $self'list_length);
+    cell $mes_body = $String$_fun_asComment($msg'message);
+    tuple $pair = $global_DictGetMin($self'address_list);
+    while ((~ null?($pair))) {
+        $global_send($SendParameters$_constructor_to_value_mode_bounce_body($DictPair$_get_value($DictPair$_not_null($pair)), $send_value, 2, false, $mes_body));
+        $pair = $global_DictGetNext($self'address_list, $DictPair$_get_key($DictPair$_not_null($pair)));
+    }
+    return (($self'owner, $self'address_list, $self'list_length), ());
+}
+
+(((slice, cell, int)), ()) $BroadcastContract$_internal_binary_Deploy((slice, cell, int) $self, (int) $deploy) impure inline {
+    var ($self'owner, $self'address_list, $self'list_length) = $self;
+    var ($deploy'queryId) = $deploy;
+    ($self'owner, $self'address_list, $self'list_length)~$BroadcastContract$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+    return (($self'owner, $self'address_list, $self'list_length), ());
+}
+
+;;
+;; Get methods of a Contract BroadcastContract
+;;
+
+_ %address_list() method_id(104114) {
+    var self = $BroadcastContract$_contract_load();
+    var res = self~$BroadcastContract$_fun_address_list();
+    return res;
+}
+
+_ %owner() method_id(83229) {
+    var self = $BroadcastContract$_contract_load();
+    var res = self~$BroadcastContract$_fun_owner();
+    return res;
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128,
+        "org.ton.deploy.lazy.v0"H >> 128,
+        "org.ton.chain.workchain.v0"H >> 128,
+        "org.ton.ownable"H >> 128
+    );
+}
+
+_ get_abi_ipfs() method_id {
+    return "ipfs://QmPUAYoQzT3hkHbrzjAKr9tSheZr9214acTeXMrixc6L2d";
+}
+
+_ lazy_deployment_completed() method_id {
+    return get_data().begin_parse().load_int(1);
+}
+
+;;
+;; Routing of a Contract BroadcastContract
+;;
+
+((slice, cell, int), int) $BroadcastContract$_contract_router_internal((slice, cell, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return (self, true);
+    }
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    
+    
+    ;; Receive AddMessage message
+    if (op == 2909481082) {
+        var msg = in_msg~$AddMessage$_load();
+        self~$BroadcastContract$_internal_binary_AddMessage(msg);
+        return (self, true);
+    }
+    
+    ;; Receive RemoveMessage message
+    if (op == 585376955) {
+        var msg = in_msg~$RemoveMessage$_load();
+        self~$BroadcastContract$_internal_binary_RemoveMessage(msg);
+        return (self, true);
+    }
+    
+    ;; Receive BroadcastMessage message
+    if (op == 2297231508) {
+        var msg = in_msg~$BroadcastMessage$_load();
+        self~$BroadcastContract$_internal_binary_BroadcastMessage(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Deploy message
+    if (op == 2490013878) {
+        var msg = in_msg~$Deploy$_load();
+        self~$BroadcastContract$_internal_binary_Deploy(msg);
+        return (self, true);
+    }
+    
+    return (self, false);
+}
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = -(msg_flags & 1);
+    slice msg_sender_addr = __tact_verify_address(cs~load_msg_addr());
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var self = $BroadcastContract$_contract_load();
+    
+    ;; Handle operation
+    int handled = self~$BroadcastContract$_contract_router_internal(msg_bounced, in_msg);
+    
+    ;; Throw if not handled
+    throw_unless(130, handled);
+    
+    ;; Persist state
+    $BroadcastContract$_contract_store(self);
+}

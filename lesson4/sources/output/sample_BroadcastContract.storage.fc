@@ -1,0 +1,169 @@
+;;
+;; Type: StateInit
+;; TLB: _ code:^cell data:^cell = StateInit
+;;
+
+((cell, cell)) $StateInit$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (cell vvv'code, cell vvv'data) = __tact_tuple_destroy_2(v);
+    return (vvv'code, vvv'data);
+}
+
+;;
+;; Type: SendParameters
+;; TLB: _ bounce:bool to:address value:int257 mode:int257 body:Maybe ^cell code:Maybe ^cell data:Maybe ^cell = SendParameters
+;;
+
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int bounce, slice to, int value, int mode, cell body, cell code, cell data) inline {
+    return (bounce, to, value, mode, body, code, data);
+}
+
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_value_mode_bounce_body(slice to, int value, int mode, int bounce, cell body) inline {
+    return (bounce, to, value, mode, body, null(), null());
+}
+
+;;
+;; Type: Deploy
+;; Header: 0x946a98b6
+;; TLB: deploy#946a98b6 queryId:uint64 = Deploy
+;;
+
+(slice, ((int))) $Deploy$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 2490013878);
+    var v'queryId = sc_0~load_uint(64);
+    return (sc_0, (v'queryId));
+}
+
+;;
+;; Type: DeployOk
+;; Header: 0xaff90f57
+;; TLB: deploy_ok#aff90f57 queryId:uint64 = DeployOk
+;;
+
+builder $DeployOk$_store(builder build_0, (int) v) inline {
+    var (v'queryId) = v;
+    build_0 = store_uint(build_0, 2952335191, 32);
+    build_0 = build_0.store_uint(v'queryId, 64);
+    return build_0;
+}
+
+cell $DeployOk$_store_cell((int) v) inline {
+    return $DeployOk$_store(begin_cell(), v).end_cell();
+}
+
+((int)) $DeployOk$_constructor_queryId(int queryId) inline {
+    return (queryId);
+}
+
+;;
+;; Type: AddMessage
+;; Header: 0xad6b287a
+;; TLB: add_message#ad6b287a address:address = AddMessage
+;;
+
+(slice, ((slice))) $AddMessage$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 2909481082);
+    var v'address = sc_0~__tact_load_address();
+    return (sc_0, (v'address));
+}
+
+;;
+;; Type: RemoveMessage
+;; Header: 0x22e424bb
+;; TLB: remove_message#22e424bb address:address = RemoveMessage
+;;
+
+(slice, ((slice))) $RemoveMessage$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 585376955);
+    var v'address = sc_0~__tact_load_address();
+    return (sc_0, (v'address));
+}
+
+;;
+;; Type: BroadcastMessage
+;; Header: 0x88ecf894
+;; TLB: broadcast_message#88ecf894 message:^string = BroadcastMessage
+;;
+
+(slice, ((slice))) $BroadcastMessage$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 2297231508);
+    var v'message = sc_0~load_ref().begin_parse();
+    return (sc_0, (v'message));
+}
+
+;;
+;; Type: DictPair
+;; TLB: _ key:int257 value:address = DictPair
+;;
+
+_ $DictPair$_get_key((int, slice) v) inline {
+    var (v'key, v'value) = v;
+    return v'key;
+}
+
+_ $DictPair$_get_value((int, slice) v) inline {
+    var (v'key, v'value) = v;
+    return v'value;
+}
+
+((int, slice)) $DictPair$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (int vvv'key, slice vvv'value) = __tact_tuple_destroy_2(v);
+    return (vvv'key, vvv'value);
+}
+
+tuple $DictPair$_as_optional((int, slice) v) inline {
+    var (v'key, v'value) = v;
+    return __tact_tuple_create_2(v'key, v'value);
+}
+
+((int, slice)) $DictPair$_constructor_key_value(int key, slice value) inline {
+    return (key, value);
+}
+
+;;
+;; Type: BroadcastContract
+;;
+
+builder $BroadcastContract$_store(builder build_0, (slice, cell, int) v) inline {
+    var (v'owner, v'address_list, v'list_length) = v;
+    build_0 = __tact_store_address(build_0, v'owner);
+    build_0 = build_0.store_dict(v'address_list);
+    build_0 = build_0.store_int(v'list_length, 257);
+    return build_0;
+}
+
+(slice, ((slice, cell, int))) $BroadcastContract$_load(slice sc_0) inline {
+    var v'owner = sc_0~__tact_load_address();
+    var v'address_list = sc_0~load_dict();
+    var v'list_length = sc_0~load_int(257);
+    return (sc_0, (v'owner, v'address_list, v'list_length));
+}
+
+(slice, ((slice))) $BroadcastContract$init$_load(slice sc_0) inline {
+    var v'owner = sc_0~__tact_load_address();
+    return (sc_0, (v'owner));
+}
+
+(slice, cell, int) $BroadcastContract$_contract_load() impure inline_ref {
+    slice $sc = get_data().begin_parse();
+    __tact_context_sys = $sc~load_ref();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$BroadcastContract$_load();
+    } else {
+        ;; Allow only workchain deployments
+        throw_unless(137, my_address().preload_uint(11) == 1024);
+        (slice owner) = $sc~$BroadcastContract$init$_load();
+        $sc.end_parse();
+        return $BroadcastContract$_contract_init(owner);
+    }
+}
+
+() $BroadcastContract$_contract_store((slice, cell, int) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_ref(__tact_context_sys);
+    b = b.store_int(true, 1);
+    b = $BroadcastContract$_store(b, v);
+    set_data(b.end_cell());
+}

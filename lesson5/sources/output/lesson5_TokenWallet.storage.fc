@@ -1,0 +1,269 @@
+;;
+;; Type: StateInit
+;; TLB: _ code:^cell data:^cell = StateInit
+;;
+
+_ $StateInit$_get_code((cell, cell) v) inline {
+    var (v'code, v'data) = v;
+    return v'code;
+}
+
+;;
+;; Type: SendParameters
+;; TLB: _ bounce:bool to:address value:int257 mode:int257 body:Maybe ^cell code:Maybe ^cell data:Maybe ^cell = SendParameters
+;;
+
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_value_mode_bounce_body_data_code(slice to, int value, int mode, int bounce, cell body, cell data, cell code) inline {
+    return (bounce, to, value, mode, body, code, data);
+}
+
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_value_mode_bounce_body(slice to, int value, int mode, int bounce, cell body) inline {
+    return (bounce, to, value, mode, body, null(), null());
+}
+
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_value_body(slice to, int value, cell body) inline {
+    return (true, to, value, 0, body, null(), null());
+}
+
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_value_mode_body(slice to, int value, int mode, cell body) inline {
+    return (true, to, value, mode, body, null(), null());
+}
+
+;;
+;; Type: WalletData
+;; TLB: _ balance:int257 owner:address master:address code:^cell = WalletData
+;;
+
+(int, slice, slice, cell) $WalletData$_to_external(((int, slice, slice, cell)) v) inline {
+    var (v'balance, v'owner, v'master, v'code) = v; 
+    return (v'balance, v'owner, v'master, v'code);
+}
+
+((int, slice, slice, cell)) $WalletData$_constructor_balance_owner_master_code(int balance, slice owner, slice master, cell code) inline {
+    return (balance, owner, master, code);
+}
+
+;;
+;; Type: Transfer
+;; Header: 0x0f817ea5
+;; TLB: transfer#0f817ea5 query_id:uint64 amount:coins destination:address response_destination:address custom_payload:Maybe ^cell forward_ton_amount:coins forward_payload:^cell = Transfer
+;;
+
+(slice, ((int, int, slice, slice, cell, int, cell))) $Transfer$_load(slice sc_0) inline_ref {
+    throw_unless(129, sc_0~load_uint(32) == 260144805);
+    var v'query_id = sc_0~load_uint(64);
+    var v'amount = sc_0~load_coins();
+    var v'destination = sc_0~__tact_load_address();
+    var v'response_destination = sc_0~__tact_load_address();
+    var v'custom_payload = sc_0~load_int(1) ? sc_0~load_ref() : null();
+    var v'forward_ton_amount = sc_0~load_coins();
+    var v'forward_payload = sc_0~load_ref();
+    return (sc_0, (v'query_id, v'amount, v'destination, v'response_destination, v'custom_payload, v'forward_ton_amount, v'forward_payload));
+}
+
+;;
+;; Type: InternalTransfer
+;; Header: 0x178d4519
+;; TLB: internal_transfer#178d4519 query_id:uint64 amount:coins from:address response_destination:address forward_ton_amount:coins forward_payload:^cell = InternalTransfer
+;;
+
+builder $InternalTransfer$_store(builder build_0, (int, int, slice, slice, int, cell) v) inline_ref {
+    var (v'query_id, v'amount, v'from, v'response_destination, v'forward_ton_amount, v'forward_payload) = v;
+    build_0 = store_uint(build_0, 395134233, 32);
+    build_0 = build_0.store_uint(v'query_id, 64);
+    build_0 = build_0.store_coins(v'amount);
+    build_0 = __tact_store_address(build_0, v'from);
+    build_0 = __tact_store_address(build_0, v'response_destination);
+    build_0 = build_0.store_coins(v'forward_ton_amount);
+    build_0 = build_0.store_ref(v'forward_payload);
+    return build_0;
+}
+
+cell $InternalTransfer$_store_cell((int, int, slice, slice, int, cell) v) inline {
+    return $InternalTransfer$_store(begin_cell(), v).end_cell();
+}
+
+(slice, ((int, int, slice, slice, int, cell))) $InternalTransfer$_load(slice sc_0) inline_ref {
+    throw_unless(129, sc_0~load_uint(32) == 395134233);
+    var v'query_id = sc_0~load_uint(64);
+    var v'amount = sc_0~load_coins();
+    var v'from = sc_0~__tact_load_address();
+    var v'response_destination = sc_0~__tact_load_address();
+    var v'forward_ton_amount = sc_0~load_coins();
+    var v'forward_payload = sc_0~load_ref();
+    return (sc_0, (v'query_id, v'amount, v'from, v'response_destination, v'forward_ton_amount, v'forward_payload));
+}
+
+(slice, ((int, int))) $InternalTransfer$_load_bounced(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 395134233);
+    var v'query_id = sc_0~load_uint(64);
+    var v'amount = sc_0~load_coins();
+    return (sc_0, (v'query_id, v'amount));
+}
+
+((int, int, slice, slice, int, cell)) $InternalTransfer$_constructor_query_id_amount_from_response_destination_forward_ton_amount_forward_payload(int query_id, int amount, slice from, slice response_destination, int forward_ton_amount, cell forward_payload) inline {
+    return (query_id, amount, from, response_destination, forward_ton_amount, forward_payload);
+}
+
+;;
+;; Type: TransferNotification
+;; Header: 0x7362d09c
+;; TLB: transfer_notification#7362d09c query_id:uint64 amount:coins sender:address forward_payload:^cell = TransferNotification
+;;
+
+builder $TransferNotification$_store(builder build_0, (int, int, slice, cell) v) inline {
+    var (v'query_id, v'amount, v'sender, v'forward_payload) = v;
+    build_0 = store_uint(build_0, 1935855772, 32);
+    build_0 = build_0.store_uint(v'query_id, 64);
+    build_0 = build_0.store_coins(v'amount);
+    build_0 = __tact_store_address(build_0, v'sender);
+    build_0 = build_0.store_ref(v'forward_payload);
+    return build_0;
+}
+
+cell $TransferNotification$_store_cell((int, int, slice, cell) v) inline {
+    return $TransferNotification$_store(begin_cell(), v).end_cell();
+}
+
+((int, int, slice, cell)) $TransferNotification$_constructor_query_id_amount_sender_forward_payload(int query_id, int amount, slice sender, cell forward_payload) inline {
+    return (query_id, amount, sender, forward_payload);
+}
+
+;;
+;; Type: Excesses
+;; Header: 0xd53276db
+;; TLB: excesses#d53276db query_id:uint64 = Excesses
+;;
+
+builder $Excesses$_store(builder build_0, (int) v) inline {
+    var (v'query_id) = v;
+    build_0 = store_uint(build_0, 3576854235, 32);
+    build_0 = build_0.store_uint(v'query_id, 64);
+    return build_0;
+}
+
+cell $Excesses$_store_cell((int) v) inline {
+    return $Excesses$_store(begin_cell(), v).end_cell();
+}
+
+((int)) $Excesses$_constructor_query_id(int query_id) inline {
+    return (query_id);
+}
+
+;;
+;; Type: Burn
+;; Header: 0x595f07bc
+;; TLB: burn#595f07bc query_id:uint64 amount:coins response_destination:address custom_payload:Maybe ^cell = Burn
+;;
+
+(slice, ((int, int, slice, cell))) $Burn$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 1499400124);
+    var v'query_id = sc_0~load_uint(64);
+    var v'amount = sc_0~load_coins();
+    var v'response_destination = sc_0~__tact_load_address();
+    var v'custom_payload = sc_0~load_int(1) ? sc_0~load_ref() : null();
+    return (sc_0, (v'query_id, v'amount, v'response_destination, v'custom_payload));
+}
+
+;;
+;; Type: BurnNotification
+;; Header: 0x7bdd97de
+;; TLB: burn_notification#7bdd97de query_id:uint64 amount:coins sender:address response_destination:address = BurnNotification
+;;
+
+builder $BurnNotification$_store(builder build_0, (int, int, slice, slice) v) inline {
+    var (v'query_id, v'amount, v'sender, v'response_destination) = v;
+    build_0 = store_uint(build_0, 2078119902, 32);
+    build_0 = build_0.store_uint(v'query_id, 64);
+    build_0 = build_0.store_coins(v'amount);
+    build_0 = __tact_store_address(build_0, v'sender);
+    build_0 = __tact_store_address(build_0, v'response_destination);
+    return build_0;
+}
+
+cell $BurnNotification$_store_cell((int, int, slice, slice) v) inline {
+    return $BurnNotification$_store(begin_cell(), v).end_cell();
+}
+
+(slice, ((int, int))) $BurnNotification$_load_bounced(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 2078119902);
+    var v'query_id = sc_0~load_uint(64);
+    var v'amount = sc_0~load_coins();
+    return (sc_0, (v'query_id, v'amount));
+}
+
+((int, int, slice, slice)) $BurnNotification$_constructor_query_id_amount_sender_response_destination(int query_id, int amount, slice sender, slice response_destination) inline {
+    return (query_id, amount, sender, response_destination);
+}
+
+;;
+;; Type: TokenWallet
+;;
+
+builder $TokenWallet$_store(builder build_0, (int, slice, slice) v) inline {
+    var (v'balance, v'owner, v'master) = v;
+    build_0 = build_0.store_coins(v'balance);
+    build_0 = __tact_store_address(build_0, v'owner);
+    build_0 = __tact_store_address(build_0, v'master);
+    return build_0;
+}
+
+(slice, ((int, slice, slice))) $TokenWallet$_load(slice sc_0) inline {
+    var v'balance = sc_0~load_coins();
+    var v'owner = sc_0~__tact_load_address();
+    var v'master = sc_0~__tact_load_address();
+    return (sc_0, (v'balance, v'owner, v'master));
+}
+
+builder $TokenWallet$init$_store(builder build_0, (slice, slice) v) inline {
+    var (v'owner, v'master) = v;
+    build_0 = __tact_store_address(build_0, v'owner);
+    build_0 = __tact_store_address(build_0, v'master);
+    return build_0;
+}
+
+(slice, ((slice, slice))) $TokenWallet$init$_load(slice sc_0) inline {
+    var v'owner = sc_0~__tact_load_address();
+    var v'master = sc_0~__tact_load_address();
+    return (sc_0, (v'owner, v'master));
+}
+
+(int, slice, slice) $TokenWallet$_contract_load() impure inline_ref {
+    slice $sc = get_data().begin_parse();
+    __tact_context_sys = $sc~load_ref();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$TokenWallet$_load();
+    } else {
+        ;; Allow only workchain deployments
+        throw_unless(137, my_address().preload_uint(11) == 1024);
+        (slice owner, slice master) = $sc~$TokenWallet$init$_load();
+        $sc.end_parse();
+        return $TokenWallet$_contract_init(owner, master);
+    }
+}
+
+() $TokenWallet$_contract_store((int, slice, slice) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_ref(__tact_context_sys);
+    b = b.store_int(true, 1);
+    b = $TokenWallet$_store(b, v);
+    set_data(b.end_cell());
+}
+
+(cell, cell) $TokenWallet$_init_child(cell sys', slice $owner, slice $master) inline_ref {
+    slice sc' = sys'.begin_parse();
+    cell source = sc'~load_dict();
+    cell contracts = new_dict();
+    
+    ;; Contract Code: TokenWallet
+    cell mine = __tact_dict_get_code(source, 56445);
+    contracts = __tact_dict_set_code(contracts, 56445, mine);
+    
+    ;; Build cell
+    builder b = begin_cell();
+    b = b.store_ref(begin_cell().store_dict(contracts).end_cell());
+    b = b.store_int(false, 1);
+    b = $TokenWallet$init$_store(b, ($owner, $master));
+    return (mine, b.end_cell());
+}
