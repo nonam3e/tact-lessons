@@ -1,0 +1,10 @@
+{
+    "projects": [{
+        "name": "nft",
+        "path": "./sources/contract.tact",
+        "output": "./sources/output",
+        "options":{
+            
+        }
+    }]
+}
