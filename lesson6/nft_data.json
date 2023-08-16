@@ -1,0 +1,15 @@
+{
+  "image": "https://cdn4.telegram-cdn.org/file/ZQ5gNY5A7o9zcnhOto310pj0wpLPYPdAtXY0TIXVJiubeg1HJWC4QzV8YdoHRXv370eFdm-wzmL7_IGk9usg9NZ9Q_sNcDbyjTBNw9TbsjIF9Jn_BLHt2tXoBOJgVfrjdjPu-Zi4pFAD9dLSxroyMHsKpzJCSZSZqhf1InowbsLQEg1MvNiMBsrAGw51VBm8xJovLxQy-u0YRPOIukkMibIhfWaG4phItMwcTbe90i0BX9rHN-Q-JMbc3mDQN7mgXhuUlfyHEGyz3psh_Fzj7pNUyfauJHnuHVvVA2hESPnPkjeXPLE-kXhynkYUvCUmIrMmkA7RqMfzRQ9Fl9eIyw.jpg",
+  "name": "Zero nft",
+  "description": "Example",
+  "attributes": [
+    {
+      "trait_type": "age",
+      "value": "5"
+    },
+    {
+      "trait_type": "lesson",
+      "value": "6"
+    }
+  ]
+}
