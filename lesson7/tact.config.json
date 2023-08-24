@@ -1,0 +1,10 @@
+{
+    "projects": [{
+        "name": "nft",
+        "path": "./sources/collection.tact",
+        "output": "./sources/output",
+        "options":{
+            
+        }
+    }]
+}

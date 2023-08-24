@@ -11,6 +11,6 @@ Welcome to the Tact language tutorial! This repository contains code examples to
 | 3  | Simple Wallet contract| [LINK](./lesson3/)  |
 | 4  | Native functions| [LINK](./lesson4/)  |
 | 5  | Jetton standart| [LINK](./lesson5/)  |
-| 6  | NFT standart| [LINK](./lesson6/)  |
-
+| 6  | NFT Standart Part 1| [LINK](./lesson6/)  |
+| 7  | NFT Standart Part 2| [LINK](./lesson7/)  |
 

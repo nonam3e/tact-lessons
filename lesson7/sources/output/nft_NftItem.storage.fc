@@ -1,0 +1,262 @@
+;;
+;; Type: SendParameters
+;; TLB: _ bounce:bool to:address value:int257 mode:int257 body:Maybe ^cell code:Maybe ^cell data:Maybe ^cell = SendParameters
+;;
+
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_value_mode_body(slice to, int value, int mode, cell body) inline {
+    return (true, to, value, mode, body, null(), null());
+}
+
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_value_body(slice to, int value, cell body) inline {
+    return (true, to, value, 0, body, null(), null());
+}
+
+;;
+;; Type: NftData
+;; TLB: _ deployed:bool index:int257 collection:address owner:address content:^cell = NftData
+;;
+
+(int, int, slice, slice, cell) $NftData$_to_external(((int, int, slice, slice, cell)) v) inline {
+    var (v'deployed, v'index, v'collection, v'owner, v'content) = v; 
+    return (v'deployed, v'index, v'collection, v'owner, v'content);
+}
+
+((int, int, slice, slice, cell)) $NftData$_constructor_deployed_index_collection_owner_content(int deployed, int index, slice collection, slice owner, cell content) inline {
+    return (deployed, index, collection, owner, content);
+}
+
+;;
+;; Type: NftRoyaltyParams
+;; TLB: _ numerator:int257 denominator:int257 royalty_destination:address = NftRoyaltyParams
+;;
+
+(int, int, slice) $NftRoyaltyParams$_to_external(((int, int, slice)) v) inline {
+    var (v'numerator, v'denominator, v'royalty_destination) = v; 
+    return (v'numerator, v'denominator, v'royalty_destination);
+}
+
+((int, int, slice)) $NftRoyaltyParams$_constructor_numerator_denominator_royalty_destination(int numerator, int denominator, slice royalty_destination) inline {
+    return (numerator, denominator, royalty_destination);
+}
+
+;;
+;; Type: NftTransfer
+;; Header: 0x5fcc3d14
+;; TLB: nft_transfer#5fcc3d14 query_id:uint64 new_owner:address response_destination:address custom_payload:Maybe ^cell forward_amount:coins forward_payload:remainder<slice> = NftTransfer
+;;
+
+(slice, ((int, slice, slice, cell, int, slice))) $NftTransfer$_load(slice sc_0) inline_ref {
+    throw_unless(129, sc_0~load_uint(32) == 1607220500);
+    var v'query_id = sc_0~load_uint(64);
+    var v'new_owner = sc_0~__tact_load_address();
+    var v'response_destination = sc_0~__tact_load_address();
+    var v'custom_payload = sc_0~load_int(1) ? sc_0~load_ref() : null();
+    var v'forward_amount = sc_0~load_coins();
+    var v'forward_payload = sc_0;
+    return (sc_0, (v'query_id, v'new_owner, v'response_destination, v'custom_payload, v'forward_amount, v'forward_payload));
+}
+
+;;
+;; Type: NftOwnershipAssigned
+;; Header: 0x05138d91
+;; TLB: nft_ownership_assigned#05138d91 query_id:uint64 prev_owner:address forward_payload:remainder<slice> = NftOwnershipAssigned
+;;
+
+builder $NftOwnershipAssigned$_store(builder build_0, (int, slice, slice) v) inline {
+    var (v'query_id, v'prev_owner, v'forward_payload) = v;
+    build_0 = store_uint(build_0, 85167505, 32);
+    build_0 = build_0.store_uint(v'query_id, 64);
+    build_0 = __tact_store_address(build_0, v'prev_owner);
+    build_0 = build_0.store_slice(v'forward_payload);
+    return build_0;
+}
+
+cell $NftOwnershipAssigned$_store_cell((int, slice, slice) v) inline {
+    return $NftOwnershipAssigned$_store(begin_cell(), v).end_cell();
+}
+
+((int, slice, slice)) $NftOwnershipAssigned$_constructor_query_id_prev_owner_forward_payload(int query_id, slice prev_owner, slice forward_payload) inline {
+    return (query_id, prev_owner, forward_payload);
+}
+
+;;
+;; Type: NftExcesses
+;; Header: 0x6f89f5e3
+;; TLB: nft_excesses#6f89f5e3 query_id:uint64 = NftExcesses
+;;
+
+builder $NftExcesses$_store(builder build_0, (int) v) inline {
+    var (v'query_id) = v;
+    build_0 = store_uint(build_0, 1871312355, 32);
+    build_0 = build_0.store_uint(v'query_id, 64);
+    return build_0;
+}
+
+cell $NftExcesses$_store_cell((int) v) inline {
+    return $NftExcesses$_store(begin_cell(), v).end_cell();
+}
+
+((int)) $NftExcesses$_constructor_query_id(int query_id) inline {
+    return (query_id);
+}
+
+;;
+;; Type: NftGetStaticData
+;; Header: 0x2fcb26a2
+;; TLB: nft_get_static_data#2fcb26a2 query_id:uint64 = NftGetStaticData
+;;
+
+(slice, ((int))) $NftGetStaticData$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 801842850);
+    var v'query_id = sc_0~load_uint(64);
+    return (sc_0, (v'query_id));
+}
+
+;;
+;; Type: NftReportStaticData
+;; Header: 0x8b771735
+;; TLB: nft_report_static_data#8b771735 query_id:uint64 index:uint256 collection:address = NftReportStaticData
+;;
+
+builder $NftReportStaticData$_store(builder build_0, (int, int, slice) v) inline {
+    var (v'query_id, v'index, v'collection) = v;
+    build_0 = store_uint(build_0, 2339837749, 32);
+    build_0 = build_0.store_uint(v'query_id, 64);
+    build_0 = build_0.store_uint(v'index, 256);
+    build_0 = __tact_store_address(build_0, v'collection);
+    return build_0;
+}
+
+cell $NftReportStaticData$_store_cell((int, int, slice) v) inline {
+    return $NftReportStaticData$_store(begin_cell(), v).end_cell();
+}
+
+((int, int, slice)) $NftReportStaticData$_constructor_query_id_index_collection(int query_id, int index, slice collection) inline {
+    return (query_id, index, collection);
+}
+
+;;
+;; Type: NftGetRoyaltyParams
+;; Header: 0x693d3950
+;; TLB: nft_get_royalty_params#693d3950 query_id:uint64 = NftGetRoyaltyParams
+;;
+
+(slice, ((int))) $NftGetRoyaltyParams$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 1765620048);
+    var v'query_id = sc_0~load_uint(64);
+    return (sc_0, (v'query_id));
+}
+
+;;
+;; Type: NftReportRoyaltyParams
+;; Header: 0xa8cb00ad
+;; TLB: nft_report_royalty_params#a8cb00ad query_id:uint64 numerator:uint16 denominator:uint16 destination:address = NftReportRoyaltyParams
+;;
+
+builder $NftReportRoyaltyParams$_store(builder build_0, (int, int, int, slice) v) inline {
+    var (v'query_id, v'numerator, v'denominator, v'destination) = v;
+    build_0 = store_uint(build_0, 2831876269, 32);
+    build_0 = build_0.store_uint(v'query_id, 64);
+    build_0 = build_0.store_uint(v'numerator, 16);
+    build_0 = build_0.store_uint(v'denominator, 16);
+    build_0 = __tact_store_address(build_0, v'destination);
+    return build_0;
+}
+
+cell $NftReportRoyaltyParams$_store_cell((int, int, int, slice) v) inline {
+    return $NftReportRoyaltyParams$_store(begin_cell(), v).end_cell();
+}
+
+((int, int, int, slice)) $NftReportRoyaltyParams$_constructor_query_id_numerator_denominator_destination(int query_id, int numerator, int denominator, slice destination) inline {
+    return (query_id, numerator, denominator, destination);
+}
+
+;;
+;; Type: NftDestroy
+;; Header: 0x1f04537a
+;; TLB: nft_destroy#1f04537a query_id:uint64 = NftDestroy
+;;
+
+(slice, ((int))) $NftDestroy$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 520377210);
+    var v'query_id = sc_0~load_uint(64);
+    return (sc_0, (v'query_id));
+}
+
+;;
+;; Type: NftDeploy
+;; Header: 0xc69df33d
+;; TLB: nft_deploy#c69df33d index:uint256 owner:address content:^cell royalty_destination:address numerator:uint16 denominator:uint16 = NftDeploy
+;;
+
+(slice, ((int, slice, cell, slice, int, int))) $NftDeploy$_load(slice sc_0) inline_ref {
+    throw_unless(129, sc_0~load_uint(32) == 3332240189);
+    var v'index = sc_0~load_uint(256);
+    var v'owner = sc_0~__tact_load_address();
+    var v'content = sc_0~load_ref();
+    var v'royalty_destination = sc_0~__tact_load_address();
+    var v'numerator = sc_0~load_uint(16);
+    var v'denominator = sc_0~load_uint(16);
+    return (sc_0, (v'index, v'owner, v'content, v'royalty_destination, v'numerator, v'denominator));
+}
+
+;;
+;; Type: NftItem
+;;
+
+builder $NftItem$_store(builder build_0, (int, slice, slice, int, cell, slice, int, int) v) inline {
+    var (v'deployed, v'collection, v'owner, v'index, v'content, v'royalty_destination, v'numerator, v'denominator) = v;
+    build_0 = build_0.store_int(v'deployed, 1);
+    build_0 = __tact_store_address(build_0, v'collection);
+    build_0 = __tact_store_address(build_0, v'owner);
+    build_0 = build_0.store_uint(v'index, 256);
+    build_0 = build_0.store_ref(v'content);
+    var build_1 = begin_cell();
+    build_1 = __tact_store_address(build_1, v'royalty_destination);
+    build_1 = build_1.store_uint(v'numerator, 16);
+    build_1 = build_1.store_uint(v'denominator, 16);
+    build_0 = store_ref(build_0, build_1.end_cell());
+    return build_0;
+}
+
+(slice, ((int, slice, slice, int, cell, slice, int, int))) $NftItem$_load(slice sc_0) inline {
+    var v'deployed = sc_0~load_int(1);
+    var v'collection = sc_0~__tact_load_address();
+    var v'owner = sc_0~__tact_load_address();
+    var v'index = sc_0~load_uint(256);
+    var v'content = sc_0~load_ref();
+    slice sc_1 = sc_0~load_ref().begin_parse();
+    var v'royalty_destination = sc_1~__tact_load_address();
+    var v'numerator = sc_1~load_uint(16);
+    var v'denominator = sc_1~load_uint(16);
+    return (sc_0, (v'deployed, v'collection, v'owner, v'index, v'content, v'royalty_destination, v'numerator, v'denominator));
+}
+
+(slice, ((slice, int))) $NftItem$init$_load(slice sc_0) inline {
+    var v'collection = sc_0~__tact_load_address();
+    var v'index = sc_0~load_int(257);
+    return (sc_0, (v'collection, v'index));
+}
+
+(int, slice, slice, int, cell, slice, int, int) $NftItem$_contract_load() impure inline_ref {
+    slice $sc = get_data().begin_parse();
+    __tact_context_sys = $sc~load_ref();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$NftItem$_load();
+    } else {
+        ;; Allow only workchain deployments
+        throw_unless(137, my_address().preload_uint(11) == 1024);
+        (slice collection, int index) = $sc~$NftItem$init$_load();
+        $sc.end_parse();
+        return $NftItem$_contract_init(collection, index);
+    }
+}
+
+() $NftItem$_contract_store((int, slice, slice, int, cell, slice, int, int) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_ref(__tact_context_sys);
+    b = b.store_int(true, 1);
+    b = $NftItem$_store(b, v);
+    set_data(b.end_cell());
+}
