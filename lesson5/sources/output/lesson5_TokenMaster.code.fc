@@ -51,7 +51,7 @@
     return (($self'total_supply, $self'mintable, $self'owner, $self'jetton_content), ());
 }
 
-(((int, int, slice, cell)), ()) $TokenMaster$_internal_binary_Transfer((int, int, slice, cell) $self, (int, int, slice, slice, cell, int, cell) $msg) impure inline {
+(((int, int, slice, cell)), ()) $TokenMaster$_internal_binary_Transfer((int, int, slice, cell) $self, (int, int, slice, slice, cell, int, slice) $msg) impure inline {
     var ($self'total_supply, $self'mintable, $self'owner, $self'jetton_content) = $self;
     var ($msg'query_id, $msg'amount, $msg'destination, $msg'response_destination, $msg'custom_payload, $msg'forward_ton_amount, $msg'forward_payload) = $msg;
     var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
@@ -67,14 +67,14 @@
 
 (((int, int, slice, cell)), ()) $TokenMaster$_internal_binary_ProvideWalletAddress((int, int, slice, cell) $self, (int, slice, int) $msg) impure inline {
     var ($self'total_supply, $self'mintable, $self'owner, $self'jetton_content) = $self;
-    var ($msg'queryId, $msg'owner_address, $msg'include_address) = $msg;
+    var ($msg'query_id, $msg'owner_address, $msg'include_address) = $msg;
     var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
     slice $wallet = $global_contractAddress($TokenWallet$_init_child(__tact_context_sys, $msg'owner_address, my_address()));
     slice $owner_address = null();
     if ($msg'include_address) {
         $owner_address = $msg'owner_address;
     }
-    $global_send($SendParameters$_constructor_to_value_mode_body($ctx'sender, 0, 64, $TakeWalletAddress$_store_cell($TakeWalletAddress$_constructor_queryId_wallet_address_owner_address($msg'queryId, $wallet, $owner_address))));
+    $global_send($SendParameters$_constructor_to_value_mode_body($ctx'sender, 0, 64, $TakeWalletAddress$_store_cell($TakeWalletAddress$_constructor_query_id_wallet_address_owner_address($msg'query_id, $wallet, $owner_address))));
     return (($self'total_supply, $self'mintable, $self'owner, $self'jetton_content), ());
 }
 
@@ -146,7 +146,7 @@ _ supported_interfaces() method_id {
 }
 
 _ get_abi_ipfs() method_id {
-    return "ipfs://QmTuzeXehnrkADobpSHeQx5pSvMcScik8sVAC1ix2SipqQ";
+    return "ipfs://QmdSF73Sdv3xE4LWKXMaz834mx5UWobp2yYgLapEN67L8f";
 }
 
 _ lazy_deployment_completed() method_id {

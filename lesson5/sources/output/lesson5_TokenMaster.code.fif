@@ -55,7 +55,7 @@ PROGRAM{
   DECLPROC $SendParameters$_constructor_to_value_mode_bounce_body_data_code
   DECLPROC $InternalTransfer$_constructor_query_id_amount_from_response_destination_forward_ton_amount_forward_payload
   DECLPROC $SendParameters$_constructor_to_value_mode_body
-  DECLPROC $TakeWalletAddress$_constructor_queryId_wallet_address_owner_address
+  DECLPROC $TakeWalletAddress$_constructor_query_id_wallet_address_owner_address
   DECLPROC $Excesses$_constructor_query_id
   DECLPROC $ChangeOwnerOk$_constructor_queryId_newOwner
   DECLPROC $DeployOk$_constructor_queryId
@@ -249,8 +249,11 @@ PROGRAM{
       SWAP
     }>
     LDGRAMS
-    LDREF
-    7 -ROLL
+    s6 s6 XCPU
+    s1 s6 XCHG
+    s1 s5 XCHG
+    s1 s4 XCHG
+    s3 s3 s0 XCHG3
   }>
   $InternalTransfer$_store PROCREF:<{
     395134233 PUSHINT
@@ -266,7 +269,8 @@ PROGRAM{
     __tact_store_address INLINECALLDICT
     SWAP
     STGRAMS
-    STREF
+    SWAP
+    STSLICER
   }>
   $InternalTransfer$_store_cell PROCINLINE:<{
     NEWC
@@ -648,7 +652,7 @@ PROGRAM{
     PUSHNULL
     PUSHNULL
   }>
-  $TakeWalletAddress$_constructor_queryId_wallet_address_owner_address PROCINLINE:<{
+  $TakeWalletAddress$_constructor_query_id_wallet_address_owner_address PROCINLINE:<{
   }>
   $Excesses$_constructor_query_id PROCINLINE:<{
   }>
@@ -732,7 +736,7 @@ PROGRAM{
     s4 s3 XCHG2
     64 PUSHINT
     s0 s3 XCHG
-    $TakeWalletAddress$_constructor_queryId_wallet_address_owner_address INLINECALLDICT
+    $TakeWalletAddress$_constructor_query_id_wallet_address_owner_address INLINECALLDICT
     $TakeWalletAddress$_store_cell INLINECALLDICT
     $SendParameters$_constructor_to_value_mode_body INLINECALLDICT
     $global_send INLINECALLDICT
@@ -808,7 +812,7 @@ PROGRAM{
     86142586315491086060343270784266291122 PUSHINT
   }>
   get_abi_ipfs PROC:<{
-    x{697066733a2f2f516d54757a655865686e726b41446f62705348655178357053764d635363696b3873564143316978325369707151} PUSHSLICE
+    x{697066733a2f2f516d6453463733536476337845344c574b584d617a3833346d783555576f6270327959674c6170454e36374c3866} PUSHSLICE
   }>
   lazy_deployment_completed PROC:<{
     c4 PUSH

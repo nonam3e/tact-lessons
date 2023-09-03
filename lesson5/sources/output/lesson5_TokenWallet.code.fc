@@ -26,7 +26,7 @@
 ;; Receivers of a Contract TokenWallet
 ;;
 
-(((int, slice, slice)), ()) $TokenWallet$_internal_binary_Transfer((int, slice, slice) $self, (int, int, slice, slice, cell, int, cell) $msg) impure inline {
+(((int, slice, slice)), ()) $TokenWallet$_internal_binary_Transfer((int, slice, slice) $self, (int, int, slice, slice, cell, int, slice) $msg) impure inline {
     var ($self'balance, $self'owner, $self'master) = $self;
     var ($msg'query_id, $msg'amount, $msg'destination, $msg'response_destination, $msg'custom_payload, $msg'forward_ton_amount, $msg'forward_payload) = $msg;
     var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
@@ -40,7 +40,7 @@
     return (($self'balance, $self'owner, $self'master), ());
 }
 
-(((int, slice, slice)), ()) $TokenWallet$_internal_binary_InternalTransfer((int, slice, slice) $self, (int, int, slice, slice, int, cell) $msg) impure inline {
+(((int, slice, slice)), ()) $TokenWallet$_internal_binary_InternalTransfer((int, slice, slice) $self, (int, int, slice, slice, int, slice) $msg) impure inline {
     var ($self'balance, $self'owner, $self'master) = $self;
     var ($msg'query_id, $msg'amount, $msg'from, $msg'response_destination, $msg'forward_ton_amount, $msg'forward_payload) = $msg;
     var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
@@ -108,7 +108,7 @@ _ supported_interfaces() method_id {
 }
 
 _ get_abi_ipfs() method_id {
-    return "ipfs://QmXHQVyTx1yw1NyDBjWGRjTG422cZrdBrFsPJVPtSCoNqp";
+    return "ipfs://QmaQZ5pUj77ETKcCX5rqRbxH2oL8NWuaXtwPzyS9QoSzH3";
 }
 
 _ lazy_deployment_completed() method_id {
