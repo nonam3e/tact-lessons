@@ -1,0 +1,255 @@
+#pragma version =0.4.3;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+#include "sample_SaleNft.headers.fc";
+#include "sample_SaleNft.stdlib.fc";
+#include "sample_SaleNft.native.fc";
+#include "sample_SaleNft.constants.fc";
+#include "sample_SaleNft.storage.fc";
+
+;;
+;; Contract SaleNft functions
+;;
+
+(slice, slice, int, slice, slice, int, int, slice, int, int) $SaleNft$_contract_init(slice $owner, slice $nft, int $price, slice $jetton_master, int $numerator, int $denominator, slice $royalty_destination) impure inline_ref {
+    var (($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price)) = (null(), null(), false, null(), null(), null(), null(), null(), false, null());
+    $self'owner = $owner;
+    $self'nft = $nft;
+    $self'price = $price;
+    $self'jetton_master = $jetton_master;
+    $self'royalty_destination = $royalty_destination;
+    $self'numerator = $numerator;
+    $self'denominator = $denominator;
+    if (( (null?($self'royalty_destination)) ? (true) : (($denominator == 0)) )) {
+        $self'numerator = 0;
+        $self'denominator = 1;
+    }
+    $global_send($SendParameters$_constructor_to_value_mode_body($self'jetton_master, 0, 64, $ProvideWalletAddress$_store_cell($ProvideWalletAddress$_constructor_query_id_owner_address_include_address(now(), my_address(), true))));
+    return ($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price);
+}
+
+((slice, slice, int, slice, slice, int, int, slice, int, int), ()) $SaleNft$_fun_send_jetton((slice, slice, int, slice, slice, int, int, slice, int, int) $self, slice $to, int $value, int $mode, int $query_id, int $amount, slice $destination, slice $response_destination, cell $custom_payload) impure inline_ref {
+    var (($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price)) = $self;
+    if (($value > 0)) {
+        $global_send($SendParameters$_constructor_to_value_mode_body($to, $value, $mode, $Transfer$_store_cell($Transfer$_constructor_query_id_amount_destination_response_destination_custom_payload_forward_ton_amount_forward_payload($query_id, $amount, $destination, $response_destination, $custom_payload, 0, $global_emptySlice()))));
+    }
+    return (($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price), ());
+}
+
+((slice, slice, int, slice, slice, int, int, slice, int, int), (int, int, int, slice, int, slice)) $SaleNft$_fun_get_price_info((slice, slice, int, slice, slice, int, int, slice, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price)) = $self;
+    int $service_fee = muldiv($self'price, muldiv(11, 100000000000, 1000), 100000000000);
+    int $royalty_fee = muldiv($self'price, muldiv($self'numerator, 100000000000, $self'denominator), 100000000000);
+    int $full_price = (($self'price + $service_fee) + $royalty_fee);
+    return (($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price), $PriceInfo$_constructor_price_full_price_royalty_fee_royalty_destination_service_fee_service_address($self'price, $full_price, $royalty_fee, $self'royalty_destination, $service_fee, service_address()));
+}
+
+((slice, slice, int, slice, slice, int, int, slice, int, int), (int, slice, slice, int, slice, slice, (int, int, int, slice, int, slice))) $SaleNft$_fun_get_sale_info((slice, slice, int, slice, slice, int, int, slice, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price)) = $self;
+    int $service_fee = muldiv($self'price, muldiv(11, 100000000000, 1000), 100000000000);
+    int $royalty_fee = muldiv($self'price, muldiv($self'numerator, 100000000000, $self'denominator), 100000000000);
+    int $full_price = (($self'price + $service_fee) + $royalty_fee);
+    return (($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price), $SaleInfo$_constructor_sale_ended_owner_nft_nft_received_jetton_master_jetton_wallet_price_info($self'sale_ended, $self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $PriceInfo$_constructor_price_full_price_royalty_fee_royalty_destination_service_fee_service_address($self'price, $full_price, $royalty_fee, $self'royalty_destination, $service_fee, service_address())));
+}
+
+((slice, slice, int, slice, slice, int, int, slice, int, int), ()) $SaleNft$_fun_requireOwner((slice, slice, int, slice, slice, int, int, slice, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price)) = $self;
+    throw_unless(132, ( __tact_slice_eq_bits($self'owner, __tact_context_get_sender()) ));
+    return (($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price), ());
+}
+
+((slice, slice, int, slice, slice, int, int, slice, int, int), slice) $SaleNft$_fun_owner((slice, slice, int, slice, slice, int, int, slice, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price)) = $self;
+    return (($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price), $self'owner);
+}
+
+;;
+;; Receivers of a Contract SaleNft
+;;
+
+(((slice, slice, int, slice, slice, int, int, slice, int, int)), ()) $SaleNft$_internal_binary_TakeWalletAddress((slice, slice, int, slice, slice, int, int, slice, int, int) $self, (int, slice, slice) $msg) impure inline {
+    var ($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price) = $self;
+    var ($msg'query_id, $msg'wallet_address, $msg'owner_address) = $msg;
+    var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+    throw_unless(4429, ( __tact_slice_eq_bits($self'jetton_master, $ctx'sender) ));
+    $self'jetton_wallet = $msg'wallet_address;
+    return (($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price), ());
+}
+
+(((slice, slice, int, slice, slice, int, int, slice, int, int)), ()) $SaleNft$_internal_binary_NftOwnershipAssigned((slice, slice, int, slice, slice, int, int, slice, int, int) $self, (int, slice, slice) $msg) impure inline {
+    var ($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price) = $self;
+    var ($msg'query_id, $msg'prev_owner, $msg'forward_payload) = $msg;
+    var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+    if (( ~ __tact_slice_eq_bits($self'nft, $ctx'sender) )) {
+        $global_send($SendParameters$_constructor_to_value_mode_body($ctx'sender, 0, 64, $NftTransfer$_store_cell($NftTransfer$_constructor_query_id_new_owner_response_destination_custom_payload_forward_amount_forward_payload($msg'query_id, $msg'prev_owner, $msg'prev_owner, __gen_cell_comment_60ab1fab56a7ba5affa998976b58d04de451c57c40d45b45b6cd1b0fe375d78d(), 0, $global_emptySlice()))));
+    } else {
+        $self'nft_received = true;
+    }
+    return (($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price), ());
+}
+
+(((slice, slice, int, slice, slice, int, int, slice, int, int)), ()) $SaleNft$_internal_binary_TransferNotification((slice, slice, int, slice, slice, int, int, slice, int, int) $self, (int, int, slice, slice) $msg) impure inline {
+    var ($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price) = $self;
+    var ($msg'query_id, $msg'amount, $msg'sender, $msg'forward_payload) = $msg;
+    var ($ctx'bounced, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+    int $sale_fee = muldiv($self'price, muldiv(11, 100000000000, 1000), 100000000000);
+    int $royalty_fee = muldiv($self'price, muldiv($self'numerator, 100000000000, $self'denominator), 100000000000);
+    int $full_price = (($self'price + $sale_fee) + $royalty_fee);
+    if (( (( (( (( (( ~ __tact_slice_eq_bits_nullable_one($self'jetton_wallet, $ctx'sender) )) ? (true) : (($self'nft_received == false)) )) ? (true) : ($self'sale_ended) )) ? (true) : (($ctx'value < 250000000)) )) ? (true) : (($msg'amount >= $full_price)) )) {
+        ($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price)~$SaleNft$_fun_send_jetton($ctx'sender, 0, 64, $msg'query_id, $msg'amount, $msg'sender, $msg'sender, __gen_cell_comment_4a28bc3202d35c56fbf784d8e058c0c655823c606df2d60990385287b1f8b20f());
+        return (($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price), ());
+    }
+    if (($msg'amount > $full_price)) {
+        ($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price)~$SaleNft$_fun_send_jetton($ctx'sender, 50000000, 0, $msg'query_id, ($msg'amount - $full_price), $msg'sender, $msg'sender, __gen_cell_comment_4a28bc3202d35c56fbf784d8e058c0c655823c606df2d60990385287b1f8b20f());
+        $ctx'value = ($ctx'value - 50000000);
+    }
+    ($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price)~$SaleNft$_fun_send_jetton($ctx'sender, 50000000, 0, $msg'query_id, $sale_fee, service_address(), $msg'sender, $global_emptyCell());
+    $ctx'value = ($ctx'value - 50000000);
+    if ((~ null?($self'royalty_destination))) {
+        ($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price)~$SaleNft$_fun_send_jetton($ctx'sender, 50000000, 0, $msg'query_id, $royalty_fee, __tact_not_null($self'royalty_destination), $msg'sender, __gen_cell_comment_4a28bc3202d35c56fbf784d8e058c0c655823c606df2d60990385287b1f8b20f());
+        $ctx'value = ($ctx'value - 50000000);
+    }
+    $global_send($SendParameters$_constructor_to_value_body($self'nft, $ctx'value, $NftTransfer$_store_cell($NftTransfer$_constructor_query_id_new_owner_response_destination_custom_payload_forward_amount_forward_payload($msg'query_id, $msg'sender, $msg'sender, __gen_cell_comment_8b28e138d806ed14ddd705f56cf66f916463197213f9a3fd692ddf1d604e6548(), 0, $global_emptySlice()))));
+    $self'nft_received = false;
+    ($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price)~$SaleNft$_fun_send_jetton($ctx'sender, 0, 128, $msg'query_id, $self'price, $self'owner, $msg'sender, $global_emptyCell());
+    return (($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price), ());
+}
+
+((slice, slice, int, slice, slice, int, int, slice, int, int), ()) $SaleNft$_internal_text_42b5f004f721b20d485ee7835367a635c29d02368495b2e5f27a0f90663946d0((slice, slice, int, slice, slice, int, int, slice, int, int) $self) impure inline {
+    var ($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price) = $self;
+    ($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price)~$SaleNft$_fun_requireOwner();
+    $global_send($SendParameters$_constructor_to_value_mode_body($self'nft, 0, 128, $NftTransfer$_store_cell($NftTransfer$_constructor_query_id_new_owner_response_destination_custom_payload_forward_amount_forward_payload(now(), $self'owner, $self'owner, __gen_cell_comment_8b28e138d806ed14ddd705f56cf66f916463197213f9a3fd692ddf1d604e6548(), 0, $global_emptySlice()))));
+    $self'nft_received = false;
+    return (($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price), ());
+}
+
+(((slice, slice, int, slice, slice, int, int, slice, int, int)), ()) $SaleNft$_internal_binary_Deploy((slice, slice, int, slice, slice, int, int, slice, int, int) $self, (int) $msg) impure inline {
+    var ($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price) = $self;
+    var ($msg'queryId) = $msg;
+    ($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price)~$SaleNft$_fun_requireOwner();
+    $self'sale_ended = false;
+    return (($self'owner, $self'nft, $self'nft_received, $self'jetton_master, $self'jetton_wallet, $self'numerator, $self'denominator, $self'royalty_destination, $self'sale_ended, $self'price), ());
+}
+
+;;
+;; Get methods of a Contract SaleNft
+;;
+
+_ %get_price_info() method_id(103795) {
+    var self = $SaleNft$_contract_load();
+    var res = self~$SaleNft$_fun_get_price_info();
+    return $PriceInfo$_to_external(res);
+}
+
+_ %get_sale_info() method_id(101700) {
+    var self = $SaleNft$_contract_load();
+    var res = self~$SaleNft$_fun_get_sale_info();
+    return $SaleInfo$_to_external(res);
+}
+
+_ %owner() method_id(83229) {
+    var self = $SaleNft$_contract_load();
+    var res = self~$SaleNft$_fun_owner();
+    return res;
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128,
+        "org.ton.deploy.lazy.v0"H >> 128,
+        "org.ton.chain.workchain.v0"H >> 128,
+        "org.ton.ownable"H >> 128
+    );
+}
+
+_ get_abi_ipfs() method_id {
+    return "ipfs://QmUwBn1SGfgbZip4Fh7DAmCZUJ4k4JsfhFiSoYjQTFJPmM";
+}
+
+_ lazy_deployment_completed() method_id {
+    return get_data().begin_parse().load_int(1);
+}
+
+;;
+;; Routing of a Contract SaleNft
+;;
+
+((slice, slice, int, slice, slice, int, int, slice, int, int), int) $SaleNft$_contract_router_internal((slice, slice, int, slice, slice, int, int, slice, int, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return (self, true);
+    }
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    
+    
+    ;; Receive TakeWalletAddress message
+    if (op == 3513996288) {
+        var msg = in_msg~$TakeWalletAddress$_load();
+        self~$SaleNft$_internal_binary_TakeWalletAddress(msg);
+        return (self, true);
+    }
+    
+    ;; Receive NftOwnershipAssigned message
+    if (op == 85167505) {
+        var msg = in_msg~$NftOwnershipAssigned$_load();
+        self~$SaleNft$_internal_binary_NftOwnershipAssigned(msg);
+        return (self, true);
+    }
+    
+    ;; Receive TransferNotification message
+    if (op == 1935855772) {
+        var msg = in_msg~$TransferNotification$_load();
+        self~$SaleNft$_internal_binary_TransferNotification(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Deploy message
+    if (op == 2490013878) {
+        var msg = in_msg~$Deploy$_load();
+        self~$SaleNft$_internal_binary_Deploy(msg);
+        return (self, true);
+    }
+    
+    ;; Text Receivers
+    if (op == 0) {
+        var text_op = slice_hash(in_msg);
+        
+        ;; Receive "Cancel" message
+        if (text_op == 0x42b5f004f721b20d485ee7835367a635c29d02368495b2e5f27a0f90663946d0) {
+            self~$SaleNft$_internal_text_42b5f004f721b20d485ee7835367a635c29d02368495b2e5f27a0f90663946d0();
+            return (self, true);
+        }
+    }
+    
+    return (self, false);
+}
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = -(msg_flags & 1);
+    slice msg_sender_addr = __tact_verify_address(cs~load_msg_addr());
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var self = $SaleNft$_contract_load();
+    
+    ;; Handle operation
+    int handled = self~$SaleNft$_contract_router_internal(msg_bounced, in_msg);
+    
+    ;; Throw if not handled
+    throw_unless(130, handled);
+    
+    ;; Persist state
+    $SaleNft$_contract_store(self);
+}
