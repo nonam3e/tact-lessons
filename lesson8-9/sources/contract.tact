@@ -4,8 +4,8 @@ import "./util.fc";
 import "./message";
 
 const sale_init_value: Int = ton("0.1");
-const sale_processing_value: Int = ton("0.25");
-const jetton_transer_value: Int = ton("0.05");
+const sale_processing_value: Int = ton("0.4");
+const jetton_transer_value: Int = ton("0.06");
 const nft_transfer_value: Int = ton("0.04");
 
 const service_numerator: Int = 11;
@@ -38,7 +38,7 @@ struct SaleInfo {
     price_info: PriceInfo;
 }
 
-contract SaleNft with Ownable {
+contract NftSale with Ownable {
     owner: Address;
     nft: Address;
     nft_received: Bool = false;
@@ -61,6 +61,7 @@ contract SaleNft with Ownable {
         if (self.royalty_destination == null || denominator == 0) {
             self.numerator = 0;
             self.denominator = 1;
+            self.royalty_destination = null;
         }
         send(SendParameters{
             to: self.jetton_master,
@@ -86,6 +87,12 @@ contract SaleNft with Ownable {
         }
         else {
             self.nft_received = true;
+            send(SendParameters{
+                to: msg.prev_owner,
+                value: 0,
+                mode: SendRemainingValue,
+                body: "Nft Received".asComment()
+            });
         }
     }
 
@@ -94,7 +101,7 @@ contract SaleNft with Ownable {
         let sale_fee: Int = mulDiv(self.price, mulDiv(service_numerator, hundred_percent, service_denominator), hundred_percent);
         let royalty_fee: Int = mulDiv(self.price, mulDiv(self.numerator, hundred_percent, self.denominator), hundred_percent);
         let full_price: Int = self.price + sale_fee + royalty_fee;
-        if(ctx.sender != self.jetton_wallet || self.nft_received == false || self.sale_ended || ctx.value < sale_processing_value || msg.amount >= full_price) {
+        if(ctx.sender != self.jetton_wallet || self.nft_received == false || self.sale_ended || ctx.value < sale_processing_value || msg.amount < full_price) {
             self.send_jetton(ctx.sender, 0, SendRemainingValue, msg.query_id, msg.amount, msg.sender, msg.sender, "Error occured".asComment());
             return;
         }
@@ -114,6 +121,7 @@ contract SaleNft with Ownable {
             body: NftTransfer{query_id: msg.query_id, new_owner: msg.sender, response_destination: msg.sender, custom_payload: "Nft received".asComment(), forward_amount: 0, forward_payload: emptySlice()}.toCell()
         });
         self.nft_received = false;
+        self.sale_ended = true;
         self.send_jetton(ctx.sender, 0, SendRemainingBalance, msg.query_id, self.price, self.owner, msg.sender, emptyCell());
     }
 
@@ -126,6 +134,7 @@ contract SaleNft with Ownable {
             body: NftTransfer{query_id: now(), new_owner: self.owner, response_destination: self.owner, custom_payload: "Nft received".asComment(), forward_amount: 0, forward_payload: emptySlice()}.toCell()
         });
         self.nft_received = false;
+        self.sale_ended = true;
     }
 
     receive(msg: Deploy) {
@@ -134,7 +143,7 @@ contract SaleNft with Ownable {
     }
 
     fun send_jetton(to: Address, value: Int, mode: Int, query_id: Int, amount: Int, destination: Address, response_destination: Address, custom_payload: Cell) {
-        if (value > 0) {
+        if (amount > 0) {
             send(SendParameters{
                 to: to,
                 value: value,
