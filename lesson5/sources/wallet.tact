@@ -92,8 +92,7 @@ contract TokenWallet {
             body: BurnNotification {
                 query_id: msg.query_id,
                 amount: msg.amount,
-                sender: self.owner,
-                response_destination: msg.response_destination
+                response_destination: self.owner
             }.toCell()
         });
     }
