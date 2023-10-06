@@ -39,7 +39,6 @@ message(0x595f07bc) Burn {
 message(0x7bdd97de) BurnNotification {
     query_id: Int as uint64;
     amount: Int as coins;
-    sender: Address;
     response_destination: Address;
 }
 
