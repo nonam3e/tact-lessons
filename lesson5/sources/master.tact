@@ -64,7 +64,7 @@ contract TokenMaster with OwnableTransferable, Deployable {
             value: 0,
             mode: SendRemainingValue,
             body: TakeWalletAddress{
-                queryId: msg.queryId,
+                query_id: msg.query_id,
                 wallet_address: wallet,
                 owner_address: owner_address
             }.toCell()

@@ -40,25 +40,25 @@ cell __tact_dict_set_code(cell dict, int id, cell code) inline;
 cell __tact_dict_get_code(cell dict, int id) inline;
 
 ;; $Transfer$_load
-(slice, ((int, int, slice, slice, cell, int, cell))) $Transfer$_load(slice sc_0) inline_ref;
+(slice, ((int, int, slice, slice, cell, int, slice))) $Transfer$_load(slice sc_0) inline_ref;
 
 ;; $InternalTransfer$_store
-builder $InternalTransfer$_store(builder build_0, (int, int, slice, slice, int, cell) v) inline_ref;
+builder $InternalTransfer$_store(builder build_0, (int, int, slice, slice, int, slice) v) inline_ref;
 
 ;; $InternalTransfer$_store_cell
-cell $InternalTransfer$_store_cell((int, int, slice, slice, int, cell) v) inline;
+cell $InternalTransfer$_store_cell((int, int, slice, slice, int, slice) v) inline;
 
 ;; $InternalTransfer$_load
-(slice, ((int, int, slice, slice, int, cell))) $InternalTransfer$_load(slice sc_0) inline_ref;
+(slice, ((int, int, slice, slice, int, slice))) $InternalTransfer$_load(slice sc_0) inline_ref;
 
 ;; $InternalTransfer$_load_bounced
 (slice, ((int, int))) $InternalTransfer$_load_bounced(slice sc_0) inline;
 
 ;; $TransferNotification$_store
-builder $TransferNotification$_store(builder build_0, (int, int, slice, cell) v) inline;
+builder $TransferNotification$_store(builder build_0, (int, int, slice, slice) v) inline;
 
 ;; $TransferNotification$_store_cell
-cell $TransferNotification$_store_cell((int, int, slice, cell) v) inline;
+cell $TransferNotification$_store_cell((int, int, slice, slice) v) inline;
 
 ;; $Excesses$_store
 builder $Excesses$_store(builder build_0, (int) v) inline;
@@ -127,13 +127,13 @@ int $Context$_fun_readForwardFee((int, slice, int, slice) $self) impure inline_r
 ((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_value_mode_bounce_body_data_code(slice to, int value, int mode, int bounce, cell body, cell data, cell code) inline;
 
 ;; $InternalTransfer$_constructor_query_id_amount_from_response_destination_forward_ton_amount_forward_payload
-((int, int, slice, slice, int, cell)) $InternalTransfer$_constructor_query_id_amount_from_response_destination_forward_ton_amount_forward_payload(int query_id, int amount, slice from, slice response_destination, int forward_ton_amount, cell forward_payload) inline;
+((int, int, slice, slice, int, slice)) $InternalTransfer$_constructor_query_id_amount_from_response_destination_forward_ton_amount_forward_payload(int query_id, int amount, slice from, slice response_destination, int forward_ton_amount, slice forward_payload) inline;
 
 ;; $SendParameters$_constructor_to_value_mode_bounce_body
 ((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_value_mode_bounce_body(slice to, int value, int mode, int bounce, cell body) inline;
 
 ;; $TransferNotification$_constructor_query_id_amount_sender_forward_payload
-((int, int, slice, cell)) $TransferNotification$_constructor_query_id_amount_sender_forward_payload(int query_id, int amount, slice sender, cell forward_payload) inline;
+((int, int, slice, slice)) $TransferNotification$_constructor_query_id_amount_sender_forward_payload(int query_id, int amount, slice sender, slice forward_payload) inline;
 
 ;; $SendParameters$_constructor_to_value_body
 ((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_value_body(slice to, int value, cell body) inline;

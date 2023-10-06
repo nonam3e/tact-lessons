@@ -64,13 +64,13 @@ builder $DeployOk$_store(builder build_0, (int) v) inline;
 cell $DeployOk$_store_cell((int) v) inline;
 
 ;; $Transfer$_load
-(slice, ((int, int, slice, slice, cell, int, cell))) $Transfer$_load(slice sc_0) inline_ref;
+(slice, ((int, int, slice, slice, cell, int, slice))) $Transfer$_load(slice sc_0) inline_ref;
 
 ;; $InternalTransfer$_store
-builder $InternalTransfer$_store(builder build_0, (int, int, slice, slice, int, cell) v) inline_ref;
+builder $InternalTransfer$_store(builder build_0, (int, int, slice, slice, int, slice) v) inline_ref;
 
 ;; $InternalTransfer$_store_cell
-cell $InternalTransfer$_store_cell((int, int, slice, slice, int, cell) v) inline;
+cell $InternalTransfer$_store_cell((int, int, slice, slice, int, slice) v) inline;
 
 ;; $Excesses$_store
 builder $Excesses$_store(builder build_0, (int) v) inline;
@@ -166,13 +166,13 @@ int $Context$_fun_readForwardFee((int, slice, int, slice) $self) impure inline_r
 ((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_value_mode_bounce_body_data_code(slice to, int value, int mode, int bounce, cell body, cell data, cell code) inline;
 
 ;; $InternalTransfer$_constructor_query_id_amount_from_response_destination_forward_ton_amount_forward_payload
-((int, int, slice, slice, int, cell)) $InternalTransfer$_constructor_query_id_amount_from_response_destination_forward_ton_amount_forward_payload(int query_id, int amount, slice from, slice response_destination, int forward_ton_amount, cell forward_payload) inline;
+((int, int, slice, slice, int, slice)) $InternalTransfer$_constructor_query_id_amount_from_response_destination_forward_ton_amount_forward_payload(int query_id, int amount, slice from, slice response_destination, int forward_ton_amount, slice forward_payload) inline;
 
 ;; $SendParameters$_constructor_to_value_mode_body
 ((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_value_mode_body(slice to, int value, int mode, cell body) inline;
 
-;; $TakeWalletAddress$_constructor_queryId_wallet_address_owner_address
-((int, slice, slice)) $TakeWalletAddress$_constructor_queryId_wallet_address_owner_address(int queryId, slice wallet_address, slice owner_address) inline;
+;; $TakeWalletAddress$_constructor_query_id_wallet_address_owner_address
+((int, slice, slice)) $TakeWalletAddress$_constructor_query_id_wallet_address_owner_address(int query_id, slice wallet_address, slice owner_address) inline;
 
 ;; $Excesses$_constructor_query_id
 ((int)) $Excesses$_constructor_query_id(int query_id) inline;

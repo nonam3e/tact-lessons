@@ -1,6 +1,6 @@
 # TACT Compilation Report
 Contract: TokenWallet
-BOC Size: 1985 bytes
+BOC Size: 1996 bytes
 
 # Types
 Total Types: 19
@@ -42,16 +42,16 @@ TLB: `factory_deploy#6d0ff13b queryId:uint64 cashback:address = FactoryDeploy`
 Signature: `FactoryDeploy{queryId:uint64,cashback:address}`
 
 ## Transfer
-TLB: `transfer#0f817ea5 query_id:uint64 amount:coins destination:address response_destination:address custom_payload:Maybe ^cell forward_ton_amount:coins forward_payload:^cell = Transfer`
-Signature: `Transfer{query_id:uint64,amount:coins,destination:address,response_destination:address,custom_payload:Maybe ^cell,forward_ton_amount:coins,forward_payload:^cell}`
+TLB: `transfer#0f817ea5 query_id:uint64 amount:coins destination:address response_destination:address custom_payload:Maybe ^cell forward_ton_amount:coins forward_payload:remainder<slice> = Transfer`
+Signature: `Transfer{query_id:uint64,amount:coins,destination:address,response_destination:address,custom_payload:Maybe ^cell,forward_ton_amount:coins,forward_payload:remainder<slice>}`
 
 ## InternalTransfer
-TLB: `internal_transfer#178d4519 query_id:uint64 amount:coins from:address response_destination:address forward_ton_amount:coins forward_payload:^cell = InternalTransfer`
-Signature: `InternalTransfer{query_id:uint64,amount:coins,from:address,response_destination:address,forward_ton_amount:coins,forward_payload:^cell}`
+TLB: `internal_transfer#178d4519 query_id:uint64 amount:coins from:address response_destination:address forward_ton_amount:coins forward_payload:remainder<slice> = InternalTransfer`
+Signature: `InternalTransfer{query_id:uint64,amount:coins,from:address,response_destination:address,forward_ton_amount:coins,forward_payload:remainder<slice>}`
 
 ## TransferNotification
-TLB: `transfer_notification#7362d09c query_id:uint64 amount:coins sender:address forward_payload:^cell = TransferNotification`
-Signature: `TransferNotification{query_id:uint64,amount:coins,sender:address,forward_payload:^cell}`
+TLB: `transfer_notification#7362d09c query_id:uint64 amount:coins sender:address forward_payload:remainder<slice> = TransferNotification`
+Signature: `TransferNotification{query_id:uint64,amount:coins,sender:address,forward_payload:remainder<slice>}`
 
 ## Excesses
 TLB: `excesses#d53276db query_id:uint64 = Excesses`
@@ -70,12 +70,12 @@ TLB: `change_content#10590ef2 jetton_content:^cell = ChangeContent`
 Signature: `ChangeContent{jetton_content:^cell}`
 
 ## ProvideWalletAddress
-TLB: `provide_wallet_address#2c76b973 queryId:uint64 owner_address:address include_address:bool = ProvideWalletAddress`
-Signature: `ProvideWalletAddress{queryId:uint64,owner_address:address,include_address:bool}`
+TLB: `provide_wallet_address#2c76b973 query_id:uint64 owner_address:address include_address:bool = ProvideWalletAddress`
+Signature: `ProvideWalletAddress{query_id:uint64,owner_address:address,include_address:bool}`
 
 ## TakeWalletAddress
-TLB: `take_wallet_address#d1735400 queryId:uint64 wallet_address:address owner_address:Maybe address = TakeWalletAddress`
-Signature: `TakeWalletAddress{queryId:uint64,wallet_address:address,owner_address:Maybe address}`
+TLB: `take_wallet_address#d1735400 query_id:uint64 wallet_address:address owner_address:Maybe address = TakeWalletAddress`
+Signature: `TakeWalletAddress{query_id:uint64,wallet_address:address,owner_address:Maybe address}`
 
 ## MasterData
 TLB: `_ total_supply:int257 mintable:bool owner:address jetton_content:^cell jetton_wallet_code:^cell = MasterData`

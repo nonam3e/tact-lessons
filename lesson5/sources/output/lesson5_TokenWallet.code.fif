@@ -173,8 +173,11 @@ PROGRAM{
       SWAP
     }>
     LDGRAMS
-    LDREF
-    7 -ROLL
+    s6 s6 XCPU
+    s1 s6 XCHG
+    s1 s5 XCHG
+    s1 s4 XCHG
+    s3 s3 s0 XCHG3
   }>
   $InternalTransfer$_store PROCREF:<{
     395134233 PUSHINT
@@ -190,7 +193,8 @@ PROGRAM{
     __tact_store_address INLINECALLDICT
     SWAP
     STGRAMS
-    STREF
+    SWAP
+    STSLICER
   }>
   $InternalTransfer$_store_cell PROCINLINE:<{
     NEWC
@@ -211,8 +215,10 @@ PROGRAM{
     __tact_load_address INLINECALLDICT
     SWAP
     LDGRAMS
-    LDREF
-    6 -ROLL
+    s5 s5 XCPU
+    s1 s5 XCHG
+    s1 s4 XCHG
+    s3 s3 s0 XCHG3
   }>
   $InternalTransfer$_load_bounced PROCINLINE:<{
     32 LDU
@@ -234,7 +240,8 @@ PROGRAM{
     STGRAMS
     SWAP
     __tact_store_address INLINECALLDICT
-    STREF
+    SWAP
+    STSLICER
   }>
   $TransferNotification$_store_cell PROCINLINE:<{
     NEWC
@@ -753,7 +760,7 @@ PROGRAM{
     209474421377847335869795010607481022628 PUSHINT
   }>
   get_abi_ipfs PROC:<{
-    x{697066733a2f2f516d58485156795478317977314e7944426a5747526a5447343232635a726442724673504a56507453436f4e7170} PUSHSLICE
+    x{697066733a2f2f516d61515a3570556a373745544b63435835727152627848326f4c384e577561587477507a795339516f537a4833} PUSHSLICE
   }>
   lazy_deployment_completed PROC:<{
     c4 PUSH
