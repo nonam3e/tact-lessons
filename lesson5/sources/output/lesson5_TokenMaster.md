@@ -1,6 +1,6 @@
 # TACT Compilation Report
 Contract: TokenMaster
-BOC Size: 2196 bytes
+BOC Size: 2162 bytes
 
 # Types
 Total Types: 19
@@ -62,8 +62,8 @@ TLB: `burn#595f07bc query_id:uint64 amount:coins response_destination:address cu
 Signature: `Burn{query_id:uint64,amount:coins,response_destination:address,custom_payload:Maybe ^cell}`
 
 ## BurnNotification
-TLB: `burn_notification#7bdd97de query_id:uint64 amount:coins sender:address response_destination:address = BurnNotification`
-Signature: `BurnNotification{query_id:uint64,amount:coins,sender:address,response_destination:address}`
+TLB: `burn_notification#7bdd97de query_id:uint64 amount:coins response_destination:address = BurnNotification`
+Signature: `BurnNotification{query_id:uint64,amount:coins,response_destination:address}`
 
 ## ChangeContent
 TLB: `change_content#10590ef2 jetton_content:^cell = ChangeContent`

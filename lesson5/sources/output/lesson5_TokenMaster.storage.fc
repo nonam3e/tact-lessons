@@ -167,16 +167,15 @@ cell $Excesses$_store_cell((int) v) inline {
 ;;
 ;; Type: BurnNotification
 ;; Header: 0x7bdd97de
-;; TLB: burn_notification#7bdd97de query_id:uint64 amount:coins sender:address response_destination:address = BurnNotification
+;; TLB: burn_notification#7bdd97de query_id:uint64 amount:coins response_destination:address = BurnNotification
 ;;
 
-(slice, ((int, int, slice, slice))) $BurnNotification$_load(slice sc_0) inline {
+(slice, ((int, int, slice))) $BurnNotification$_load(slice sc_0) inline {
     throw_unless(129, sc_0~load_uint(32) == 2078119902);
     var v'query_id = sc_0~load_uint(64);
     var v'amount = sc_0~load_coins();
-    var v'sender = sc_0~__tact_load_address();
     var v'response_destination = sc_0~__tact_load_address();
-    return (sc_0, (v'query_id, v'amount, v'sender, v'response_destination));
+    return (sc_0, (v'query_id, v'amount, v'response_destination));
 }
 
 ;;

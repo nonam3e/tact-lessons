@@ -77,7 +77,7 @@ contract TokenMaster with OwnableTransferable, Deployable {
     }
 
     receive(msg: BurnNotification) {
-        let init: StateInit = initOf TokenWallet(msg.sender, myAddress());
+        let init: StateInit = initOf TokenWallet(msg.response_destination, myAddress());
         require(contractAddress(init) == sender(), "Invalid sender");
 
         self.total_supply = self.total_supply - msg.amount;
@@ -90,7 +90,13 @@ contract TokenMaster with OwnableTransferable, Deployable {
     }
 
     get fun get_jetton_data(): MasterData {
-        return MasterData{total_supply: self.total_supply, mintable: self.mintable, owner: self.owner, jetton_content: self.jetton_content, jetton_wallet_code: (initOf TokenWallet(self.owner, myAddress())).code};
+        return MasterData{
+            total_supply: self.total_supply, 
+            mintable: self.mintable, 
+            owner: self.owner, 
+            jetton_content: self.jetton_content, 
+            jetton_wallet_code: (initOf TokenWallet(self.owner, myAddress())).code
+        };
     }
 
     get fun get_wallet_address(owner_address: Address): Address {

@@ -98,7 +98,8 @@ contract NftSale with Ownable {
 
     receive(msg: TransferNotification) {
         let ctx: Context = context();
-        let sale_fee: Int = mulDiv(self.price, mulDiv(service_numerator, hundred_percent, service_denominator), hundred_percent);
+        let value: Int = mulDiv(service_numerator, hundred_percent, service_denominator);
+        let sale_fee: Int = mulDiv(self.price, value, hundred_percent);
         let royalty_fee: Int = mulDiv(self.price, mulDiv(self.numerator, hundred_percent, self.denominator), hundred_percent);
         let full_price: Int = self.price + sale_fee + royalty_fee;
         if(ctx.sender != self.jetton_wallet || self.nft_received == false || self.sale_ended || ctx.value < sale_processing_value || msg.amount < full_price) {

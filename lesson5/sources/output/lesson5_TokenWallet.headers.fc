@@ -70,10 +70,10 @@ cell $Excesses$_store_cell((int) v) inline;
 (slice, ((int, int, slice, cell))) $Burn$_load(slice sc_0) inline;
 
 ;; $BurnNotification$_store
-builder $BurnNotification$_store(builder build_0, (int, int, slice, slice) v) inline;
+builder $BurnNotification$_store(builder build_0, (int, int, slice) v) inline;
 
 ;; $BurnNotification$_store_cell
-cell $BurnNotification$_store_cell((int, int, slice, slice) v) inline;
+cell $BurnNotification$_store_cell((int, int, slice) v) inline;
 
 ;; $BurnNotification$_load_bounced
 (slice, ((int, int))) $BurnNotification$_load_bounced(slice sc_0) inline;
@@ -141,8 +141,5 @@ int $Context$_fun_readForwardFee((int, slice, int, slice) $self) impure inline_r
 ;; $Excesses$_constructor_query_id
 ((int)) $Excesses$_constructor_query_id(int query_id) inline;
 
-;; $SendParameters$_constructor_to_value_mode_body
-((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_value_mode_body(slice to, int value, int mode, cell body) inline;
-
-;; $BurnNotification$_constructor_query_id_amount_sender_response_destination
-((int, int, slice, slice)) $BurnNotification$_constructor_query_id_amount_sender_response_destination(int query_id, int amount, slice sender, slice response_destination) inline;
+;; $BurnNotification$_constructor_query_id_amount_response_destination
+((int, int, slice)) $BurnNotification$_constructor_query_id_amount_response_destination(int query_id, int amount, slice response_destination) inline;
