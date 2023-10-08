@@ -25,10 +25,6 @@ _ $StateInit$_get_code((cell, cell) v) inline {
     return (true, to, value, 0, body, null(), null());
 }
 
-((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_value_mode_body(slice to, int value, int mode, cell body) inline {
-    return (true, to, value, mode, body, null(), null());
-}
-
 ;;
 ;; Type: WalletData
 ;; TLB: _ balance:int257 owner:address master:address code:^cell = WalletData
@@ -168,20 +164,19 @@ cell $Excesses$_store_cell((int) v) inline {
 ;;
 ;; Type: BurnNotification
 ;; Header: 0x7bdd97de
-;; TLB: burn_notification#7bdd97de query_id:uint64 amount:coins sender:address response_destination:address = BurnNotification
+;; TLB: burn_notification#7bdd97de query_id:uint64 amount:coins response_destination:address = BurnNotification
 ;;
 
-builder $BurnNotification$_store(builder build_0, (int, int, slice, slice) v) inline {
-    var (v'query_id, v'amount, v'sender, v'response_destination) = v;
+builder $BurnNotification$_store(builder build_0, (int, int, slice) v) inline {
+    var (v'query_id, v'amount, v'response_destination) = v;
     build_0 = store_uint(build_0, 2078119902, 32);
     build_0 = build_0.store_uint(v'query_id, 64);
     build_0 = build_0.store_coins(v'amount);
-    build_0 = __tact_store_address(build_0, v'sender);
     build_0 = __tact_store_address(build_0, v'response_destination);
     return build_0;
 }
 
-cell $BurnNotification$_store_cell((int, int, slice, slice) v) inline {
+cell $BurnNotification$_store_cell((int, int, slice) v) inline {
     return $BurnNotification$_store(begin_cell(), v).end_cell();
 }
 
@@ -192,8 +187,8 @@ cell $BurnNotification$_store_cell((int, int, slice, slice) v) inline {
     return (sc_0, (v'query_id, v'amount));
 }
 
-((int, int, slice, slice)) $BurnNotification$_constructor_query_id_amount_sender_response_destination(int query_id, int amount, slice sender, slice response_destination) inline {
-    return (query_id, amount, sender, response_destination);
+((int, int, slice)) $BurnNotification$_constructor_query_id_amount_response_destination(int query_id, int amount, slice response_destination) inline {
+    return (query_id, amount, response_destination);
 }
 
 ;;

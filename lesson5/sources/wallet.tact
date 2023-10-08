@@ -26,13 +26,13 @@ contract TokenWallet {
         self.balance = self.balance - msg.amount;
         require(self.balance >= 0, "Invalid token amount");
         require(ctx.readForwardFee() * 2 + 2 * gasConsumption + minTons + msg.forward_ton_amount < ctx.value, "Invalid ton amount");
+
         let init: StateInit = initOf TokenWallet(msg.destination, self.master);
-        let to: Address = contractAddress(init);
         send(SendParameters {
-            to: to,
+            to: contractAddress(init),
             value: 0,
             mode: SendRemainingValue,
-            bounce: false,
+            bounce: true,
             body: InternalTransfer{
                 query_id: msg.query_id,
                 amount: msg.amount,
@@ -47,14 +47,19 @@ contract TokenWallet {
 
     receive(msg: InternalTransfer) {
         let ctx: Context = context();
+
         if(ctx.sender != self.master) {
             let init: StateInit = initOf TokenWallet(msg.from, self.master);
             require(contractAddress(init) == ctx.sender, "Invalid sender");
         }
+
+
         self.balance = self.balance + msg.amount;
         require(self.balance >= 0, "Invalid token amount");
+
         let msgValue: Int = ctx.value;
         msgValue = msgValue - gasConsumption - (minTons - min(minTons, myBalance() - ctx.value));
+
         if(msg.forward_ton_amount > 0) {
             msgValue = msgValue - msg.forward_ton_amount - ctx.readForwardFee();
             send(SendParameters {
@@ -89,6 +94,7 @@ contract TokenWallet {
             to: self.master,
             value: 0,
             mode: SendRemainingValue,
+            bounce: true,
             body: BurnNotification {
                 query_id: msg.query_id,
                 amount: msg.amount,

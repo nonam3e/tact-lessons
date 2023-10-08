@@ -85,10 +85,10 @@
     return (($self'total_supply, $self'mintable, $self'owner, $self'jetton_content), ());
 }
 
-(((int, int, slice, cell)), ()) $TokenMaster$_internal_binary_BurnNotification((int, int, slice, cell) $self, (int, int, slice, slice) $msg) impure inline {
+(((int, int, slice, cell)), ()) $TokenMaster$_internal_binary_BurnNotification((int, int, slice, cell) $self, (int, int, slice) $msg) impure inline {
     var ($self'total_supply, $self'mintable, $self'owner, $self'jetton_content) = $self;
-    var ($msg'query_id, $msg'amount, $msg'sender, $msg'response_destination) = $msg;
-    var ($init'code, $init'data) = $TokenWallet$_init_child(__tact_context_sys, $msg'sender, my_address());
+    var ($msg'query_id, $msg'amount, $msg'response_destination) = $msg;
+    var ($init'code, $init'data) = $TokenWallet$_init_child(__tact_context_sys, $msg'response_destination, my_address());
     throw_unless(4429, ( __tact_slice_eq_bits(__tact_context_get_sender(), $global_contractAddress(($init'code, $init'data))) ));
     $self'total_supply = ($self'total_supply - $msg'amount);
     $global_send($SendParameters$_constructor_to_value_mode_body($msg'response_destination, 0, 64, $Excesses$_store_cell($Excesses$_constructor_query_id($msg'query_id))));
@@ -146,7 +146,7 @@ _ supported_interfaces() method_id {
 }
 
 _ get_abi_ipfs() method_id {
-    return "ipfs://QmdSF73Sdv3xE4LWKXMaz834mx5UWobp2yYgLapEN67L8f";
+    return "ipfs://QmVLMAum3iLgD8zmBK6GNMs4Khp1ns5Jom9qD1RfT6yZR4";
 }
 
 _ lazy_deployment_completed() method_id {

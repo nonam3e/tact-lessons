@@ -79,7 +79,7 @@ builder $Excesses$_store(builder build_0, (int) v) inline;
 cell $Excesses$_store_cell((int) v) inline;
 
 ;; $BurnNotification$_load
-(slice, ((int, int, slice, slice))) $BurnNotification$_load(slice sc_0) inline;
+(slice, ((int, int, slice))) $BurnNotification$_load(slice sc_0) inline;
 
 ;; $ChangeContent$_load
 (slice, ((cell))) $ChangeContent$_load(slice sc_0) inline;

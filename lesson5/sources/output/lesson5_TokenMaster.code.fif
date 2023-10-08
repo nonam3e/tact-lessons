@@ -299,9 +299,6 @@ PROGRAM{
     64 LDU
     LDGRAMS
     __tact_load_address INLINECALLDICT
-    SWAP
-    __tact_load_address INLINECALLDICT
-    s1 s4 XCHG
     s3 s3 s0 XCHG3
   }>
   $ChangeContent$_load PROCINLINE:<{
@@ -749,7 +746,7 @@ PROGRAM{
   $TokenMaster$_internal_binary_BurnNotification PROCINLINE:<{
     __tact_context_sys GETGLOB
     MYADDR
-    s1 s3 s0 XCHG3
+    s2 s(-1) PUXC
     $TokenWallet$_init_child INLINECALLDICT
     4429 PUSHINT
     __tact_context_get_sender INLINECALLDICT
@@ -812,7 +809,7 @@ PROGRAM{
     86142586315491086060343270784266291122 PUSHINT
   }>
   get_abi_ipfs PROC:<{
-    x{697066733a2f2f516d6453463733536476337845344c574b584d617a3833346d783555576f6270327959674c6170454e36374c3866} PUSHSLICE
+    x{697066733a2f2f516d564c4d41756d33694c6744387a6d424b36474e4d73344b6870316e73354a6f6d3971443152665436795a5234} PUSHSLICE
   }>
   lazy_deployment_completed PROC:<{
     c4 PUSH
@@ -873,7 +870,7 @@ PROGRAM{
     IFJMP:<{
       DROP
       $BurnNotification$_load INLINECALLDICT
-      1 4 BLKDROP2
+      1 3 BLKDROP2
       $TokenMaster$_internal_binary_BurnNotification INLINECALLDICT
       TRUE
     }>
